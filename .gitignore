@@ -32,3 +32,8 @@ yarn-error.log*
 # next.js generated
 next-env.d.ts
 /coverage
+
+# local-only — planning docs, project instructions, local Claude config (never pushed)
+/.claude/
+/docs/
+/CLAUDE.md
