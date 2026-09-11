@@ -3,8 +3,10 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * Refreshes the Supabase session on every request and enforces the
- * "every /admin/* route requires a session" rule centrally, at the
- * middleware level — never per-page. (blog-admin-specification.md §4)
+ * "every /admin/* route requires a session" rule centrally — via the root
+ * `proxy.ts` (Next.js 16 renamed the middleware.ts convention to proxy.ts;
+ * same mechanism the specs call "middleware") — never per-page.
+ * (blog-admin-specification.md §4)
  */
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
