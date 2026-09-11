@@ -7,6 +7,7 @@ import { signOut } from "@/app/admin/(dashboard)/actions";
 const ADMIN_LINKS = [
   { href: "/admin/posts", label: "Posts" },
   { href: "/admin/categories", label: "Categories" },
+  { href: "/admin/messages", label: "Messages" },
   { href: "/admin/resume", label: "Resume" },
 ];
 
