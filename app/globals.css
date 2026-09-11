@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 /* Manual dark mode: `dark:` utilities respond to a `.dark` class on <html>, not
    to prefers-color-scheme alone. The no-flash script in app/layout.tsx sets that
@@ -23,7 +25,38 @@
   --color-warning: #f59f00;
   --color-destructive: #e03131;
 
-  /* Radius (§5.1) — deliberately large; "very rounded / pill-heavy" */
+  /* shadcn/ui semantic roles (from `shadcn init`), aliased onto the tokens
+     above rather than shadcn's own Nova/neutral defaults, so every copied-in
+     component already matches the design system with no per-component color
+     edits. Dark-mode variants fall out automatically since these all resolve
+     through the --color-* custom properties reassigned under `.dark` below.
+
+     NOTE — deliberate naming exception: shadcn's own "accent" role means "a
+     subtle neutral hover/highlight surface" (dropdown items, menu hover),
+     which is a different thing from our brand `color-accent` (teal) above.
+     Tailwind can't give `bg-accent` two meanings at once, and our brand token
+     already owns that name per the design spec, so shadcn's accent role is
+     intentionally left unmapped here. Any shadcn primitive that uses
+     `bg-accent`/`text-accent-foreground` for a hover surface must be edited
+     to use `bg-surface-alt`/`text-text-primary` instead when it's copied in
+     (components/ui/button.tsx doesn't use it yet — nothing to fix there yet). */
+  --color-foreground: var(--color-text-primary);
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-text-primary);
+  --color-popover: var(--color-surface);
+  --color-popover-foreground: var(--color-text-primary);
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: #0a0f0d; /* fixed dark text — both accent shades are too light/mid for white text to clear WCAG AA (§10) */
+  --color-secondary: var(--color-surface-alt);
+  --color-secondary-foreground: var(--color-text-primary);
+  --color-muted: var(--color-surface-alt);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-destructive-foreground: #ffffff;
+  --color-input: var(--color-border);
+  --color-ring: var(--color-accent);
+
+  /* Radius (§5.1) — deliberately large; "very rounded / pill-heavy".
+     Overrides shadcn's own smaller Nova radius scale for these three keys. */
   --radius-sm: 0.5rem; /* 8px  — badges, tags */
   --radius-md: 1rem; /* 16px — cards, inputs */
   --radius-lg: 1.5rem; /* 24px — larger panels, images */
