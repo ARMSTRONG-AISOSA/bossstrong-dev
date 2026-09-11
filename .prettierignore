@@ -1,0 +1,12 @@
+.next
+out
+build
+node_modules
+package-lock.json
+public
+
+# local-only (see .gitignore)
+docs
+.claude
+CLAUDE.md
+AGENTS.md
