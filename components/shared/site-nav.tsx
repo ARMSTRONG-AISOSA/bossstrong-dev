@@ -15,7 +15,7 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function SiteNav() {
+export function SiteNav({ resumeUrl }: { resumeUrl: string | null }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -42,7 +42,7 @@ export function SiteNav() {
         </nav>
 
         <div className="hidden items-center gap-2 sm:flex">
-          <ResumeAction />
+          <ResumeAction resumeUrl={resumeUrl} />
           <ThemeToggle />
         </div>
 
@@ -79,7 +79,7 @@ export function SiteNav() {
             </Link>
           ))}
           <div className="mt-2 flex items-center justify-between px-4">
-            <ResumeAction />
+            <ResumeAction resumeUrl={resumeUrl} />
             <ThemeToggle />
           </div>
         </nav>
@@ -88,19 +88,30 @@ export function SiteNav() {
   );
 }
 
-function ResumeAction() {
-  // No Supabase Storage check yet — Phase 2 (backend) hasn't been built, so
-  // there is genuinely no resume to check for. This is the spec's own honest
-  // "not available" fallback (backend-specification.md §5.2 /
-  // about-specification.md §4.6), not a shortcut: swap this for a real
-  // Storage existence check once Phase 2 lands, same pattern as About's.
+function ResumeAction({ resumeUrl }: { resumeUrl: string | null }) {
+  // Backed by a real Supabase Storage check (lib/resume-status.ts) now that
+  // Phase 2/4.7 exist. Honest "not available" fallback when nothing has been
+  // uploaded yet (backend-specification.md §5.2 / about-specification.md §4.6).
+  if (!resumeUrl) {
+    return (
+      <span
+        aria-disabled="true"
+        title="Resume not available yet"
+        className="cursor-not-allowed rounded-full border px-4 py-2 text-small font-medium text-text-secondary opacity-50"
+      >
+        Resume
+      </span>
+    );
+  }
+
   return (
-    <span
-      aria-disabled="true"
-      title="Resume not available yet"
-      className="cursor-not-allowed rounded-full border px-4 py-2 text-small font-medium text-text-secondary opacity-50"
+    <a
+      href={resumeUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="rounded-full border px-4 py-2 text-small font-medium text-text-primary transition-colors hover:bg-surface-alt"
     >
       Resume
-    </span>
+    </a>
   );
 }

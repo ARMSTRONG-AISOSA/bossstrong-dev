@@ -1,5 +1,5 @@
 -- contact_submissions (backend-specification.md §2.4, §3.5)
--- ⚠️ Also contains 'REPLACE_WITH_ADMIN_UID' — same note as the RLS migration.
+-- Uses the real admin UID (99e3ce55-500e-474b-bf26-0bd098c38a67) — see the RLS migration.
 
 create table if not exists contact_submissions (
   id uuid primary key default gen_random_uuid(),
@@ -23,12 +23,12 @@ with check (true);
 create policy "Admin can read contact submissions"
 on contact_submissions for select
 to authenticated
-using (auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+using (auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
 
 create policy "Admin can delete contact submissions"
 on contact_submissions for delete
 to authenticated
-using (auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+using (auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
 
 -- No public update policy, deliberately (§3.5) — a submitted message is
 -- immutable once sent.

@@ -1,5 +1,5 @@
 -- Storage buckets and policies (backend-specification.md §5).
--- ⚠️ Also contains 'REPLACE_WITH_ADMIN_UID' — same note as the RLS migration.
+-- Uses the real admin UID (99e3ce55-500e-474b-bf26-0bd098c38a67) — see the RLS migration.
 
 -- post-images: 3MB limit + MIME allowlist enforced at the bucket level (§5.1) —
 -- this is the real gate, not just client-side validation.
@@ -40,12 +40,12 @@ using (bucket_id = 'post-images');
 create policy "Admin can upload post images"
 on storage.objects for insert
 to authenticated
-with check (bucket_id = 'post-images' and auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+with check (bucket_id = 'post-images' and auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
 
 create policy "Admin can delete post images"
 on storage.objects for delete
 to authenticated
-using (bucket_id = 'post-images' and auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+using (bucket_id = 'post-images' and auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
 
 -- resume-files policies
 create policy "Public can view resume"
@@ -56,14 +56,14 @@ using (bucket_id = 'resume-files');
 create policy "Admin can upload or replace resume"
 on storage.objects for insert
 to authenticated
-with check (bucket_id = 'resume-files' and auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+with check (bucket_id = 'resume-files' and auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
 
 create policy "Admin can update resume"
 on storage.objects for update
 to authenticated
-using (bucket_id = 'resume-files' and auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+using (bucket_id = 'resume-files' and auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
 
 create policy "Admin can delete resume"
 on storage.objects for delete
 to authenticated
-using (bucket_id = 'resume-files' and auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+using (bucket_id = 'resume-files' and auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');

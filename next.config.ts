@@ -27,6 +27,18 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    // Supabase Storage public URLs for post cover images / body images
+    // (backend-specification.md §5) — technical-specification.md §5 prefers
+    // next/image where practical.
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ciezdxwbshriqjuwvahl.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
   async headers() {
     return [
       {

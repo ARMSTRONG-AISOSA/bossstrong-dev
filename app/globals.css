@@ -131,6 +131,100 @@
   }
 }
 
+/* Markdown body (public Article + admin live preview) — minimal, token-driven
+   styling for react-markdown output (technical-specification.md §5). */
+.markdown-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.markdown-body h1 {
+  font-size: var(--text-h2);
+}
+.markdown-body h2 {
+  font-size: var(--text-h3);
+}
+.markdown-body h3 {
+  font-size: var(--text-body-lg);
+}
+.markdown-body a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375em;
+}
+.markdown-body ul {
+  list-style: disc;
+}
+.markdown-body ol {
+  list-style: decimal;
+}
+.markdown-body blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: 1em;
+  color: var(--color-text-secondary);
+}
+.markdown-body img {
+  border-radius: var(--radius-md);
+}
+.markdown-body code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  padding: 0.125em 0.375em;
+}
+.markdown-body pre {
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  padding: 1em;
+  overflow-x: auto;
+}
+.markdown-body pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Syntax highlighting (rehype-highlight token classes) — a compact,
+   token-driven palette instead of pulling in a full highlight.js theme
+   package, so both modes stay consistent with the design system. */
+.hljs-comment,
+.hljs-quote {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal {
+  color: var(--color-accent);
+}
+.hljs-string,
+.hljs-attr {
+  color: var(--color-success);
+}
+.hljs-number,
+.hljs-built_in,
+.hljs-type {
+  color: var(--color-warning);
+}
+.hljs-title,
+.hljs-name,
+.hljs-section {
+  color: var(--color-destructive);
+}
+
 /* Reduced motion is a hard requirement, not an enhancement (§7.3 / §10). */
 @media (prefers-reduced-motion: reduce) {
   *,

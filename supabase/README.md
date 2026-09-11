@@ -11,13 +11,9 @@ These migrations implement `docs/specs/backend-specification.md`. Run them in or
 5. `20260911060005_submit_contact_message.sql`
 6. `20260911060006_storage.sql` — same replacement needed
 
-## Before running migrations 3, 4, and 6
+## Admin UID
 
-Those three files reference `REPLACE_WITH_ADMIN_UID`, a deliberately invalid placeholder (not a real UUID) so an unedited copy fails loudly instead of silently locking everyone out or granting nothing. To get the real value:
-
-1. In the Supabase dashboard: **Authentication → Users → Add user**, create the one admin account (email/password). Google OAuth can be added afterwards as a second sign-in method for the same account — see `docs/specs/technical-specification.md` §7.
-2. Copy that user's **UID** from the Users table.
-3. Find-and-replace `REPLACE_WITH_ADMIN_UID` with that UID (keep the quotes) in the three files above.
+Done (2026-09-11) — the admin user exists and migrations 3, 4, and 6 already use the real UID (`99e3ce55-500e-474b-bf26-0bd098c38a67`), not a placeholder. Google OAuth can be added afterwards as a second sign-in method for the same account — see `docs/specs/technical-specification.md` §7.
 
 ## Running them
 

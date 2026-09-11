@@ -1,15 +1,14 @@
 -- Row-Level Security (backend-specification.md §3)
 --
--- ⚠️ REPLACE 'REPLACE_WITH_ADMIN_UID' BELOW WITH THE REAL ADMIN auth.uid()
--- BEFORE RUNNING THIS FILE. It's a single find-and-replace across this file.
--- Deliberately left as an invalid UUID string (not a placeholder that would
--- silently "work") so an unedited copy fails loudly with a cast error the
--- first time it's exercised, rather than quietly locking everyone out.
--- (backend-specification.md §3.2, §8.3 — confirm the real UID, don't guess.)
+-- The admin UID below (99e3ce55-500e-474b-bf26-0bd098c38a67) is the real
+-- auth.uid() of the single admin user, confirmed 2026-09-11 — not a
+-- placeholder. (backend-specification.md §3.2, §8.3)
 
 alter table categories enable row level security;
 alter table posts enable row level security;
-alter table contact_submissions enable row level security;
+-- contact_submissions doesn't exist yet at this point in the migration order
+-- (created in 20260911060004_contact_submissions.sql, which enables RLS on
+-- it there) — enabling it here would fail with "relation does not exist".
 
 -- posts: public can read only published rows. This is the enforcement point
 -- for the Draft Visibility Rule (blog-admin-specification.md §5) — no client
@@ -23,8 +22,8 @@ using (status = 'published');
 create policy "Admin can manage all posts"
 on posts for all
 to authenticated
-using (auth.uid() = 'REPLACE_WITH_ADMIN_UID')
-with check (auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+using (auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67')
+with check (auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
 
 -- categories: public read (needed to render filter pills), admin-only write.
 create policy "Public can read categories"
@@ -35,5 +34,5 @@ using (true);
 create policy "Admin can manage categories"
 on categories for all
 to authenticated
-using (auth.uid() = 'REPLACE_WITH_ADMIN_UID')
-with check (auth.uid() = 'REPLACE_WITH_ADMIN_UID');
+using (auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67')
+with check (auth.uid() = '99e3ce55-500e-474b-bf26-0bd098c38a67');
