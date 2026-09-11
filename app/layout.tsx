@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SiteNav } from "@/components/shared/site-nav";
+import { SiteFooter } from "@/components/shared/site-footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,7 +37,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <div className="flex min-h-dvh flex-col">
+          <SiteNav />
+          <div className="flex-1">{children}</div>
+          <SiteFooter />
+        </div>
+      </body>
     </html>
   );
 }
