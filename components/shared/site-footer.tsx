@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // homepage-specification.md §4.10: identity, nav links, GitHub/LinkedIn,
 // contact link, Privacy Policy link, copyright. No new content or CTAs.
@@ -18,6 +22,9 @@ const SOCIAL_LINKS = [
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const pathname = usePathname();
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <footer className="border-t">
@@ -35,15 +42,22 @@ export function SiteFooter() {
           aria-label="Footer"
           className="flex flex-wrap gap-x-6 gap-y-2 text-small"
         >
-          {FOOTER_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-text-secondary transition-colors hover:text-text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {FOOTER_LINKS.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "transition-colors hover:text-accent",
+                  active ? "text-text-primary" : "text-text-secondary",
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <nav
@@ -56,7 +70,7 @@ export function SiteFooter() {
               href={link.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-text-secondary transition-colors hover:text-text-primary"
+              className="text-text-secondary transition-colors hover:text-accent"
             >
               {link.label}
             </a>
@@ -71,7 +85,13 @@ export function SiteFooter() {
           </p>
           <Link
             href="/privacy"
-            className="text-tiny text-text-secondary underline-offset-4 hover:text-text-primary hover:underline"
+            aria-current={isActive("/privacy") ? "page" : undefined}
+            className={cn(
+              "text-tiny underline-offset-4 transition-colors hover:text-accent hover:underline",
+              isActive("/privacy")
+                ? "text-text-primary"
+                : "text-text-secondary",
+            )}
           >
             Privacy Policy
           </Link>

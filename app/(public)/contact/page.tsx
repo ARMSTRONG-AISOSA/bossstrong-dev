@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/contact-form";
+import { ContactIconLinks } from "@/components/shared/contact-icon-links";
+import { CONTACT_LINKS } from "@/lib/data/contact-links";
 
 export const metadata: Metadata = {
   title: "Contact",
 };
 
-// contact-specification.md §3-4. Direct email and availability wording are
-// placeholders until the real information is supplied — never fabricated
-// (§6.3, homepage-specification.md §9). GitHub is the one real link
-// currently on file (see components/shared/site-footer.tsx); LinkedIn is
-// omitted until a real profile URL exists.
+// contact-specification.md §3-4. Real links come from lib/data/contact-links
+// and are omitted until supplied — never fabricated (§6.3,
+// homepage-specification.md §9). "Direct Contact" (§4.3) = email/WhatsApp,
+// "Elsewhere" / Social-Professional Links (§4.4) = GitHub/LinkedIn.
+const hasDirectLink = CONTACT_LINKS.some(
+  (link) => (link.id === "email" || link.id === "whatsapp") && link.href,
+);
+const hasProfileLink = CONTACT_LINKS.some(
+  (link) => (link.id === "github" || link.id === "linkedin") && link.href,
+);
 export default function ContactPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
@@ -32,24 +39,25 @@ export default function ContactPage() {
           <h2 className="text-h3 font-semibold text-text-primary">
             Direct Contact
           </h2>
-          <p className="mt-2 text-small text-text-secondary">
-            A direct email address will be added here soon — for now, the form
-            above is the fastest way to reach me.
-          </p>
+          {hasDirectLink ? (
+            <ContactIconLinks ids={["email", "whatsapp"]} className="mt-3" />
+          ) : (
+            <p className="mt-2 text-small text-text-secondary">
+              A direct email address will be added here soon — for now, the form
+              above is the fastest way to reach me.
+            </p>
+          )}
         </section>
 
         <section>
           <h2 className="text-h3 font-semibold text-text-primary">Elsewhere</h2>
-          <p className="mt-2 text-small text-text-secondary">
-            <a
-              href="https://github.com/ARMSTRONG-AISOSA"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent underline underline-offset-2"
-            >
-              GitHub
-            </a>
-          </p>
+          {hasProfileLink ? (
+            <ContactIconLinks ids={["github", "linkedin"]} className="mt-3" />
+          ) : (
+            <p className="mt-2 text-small text-text-secondary">
+              Professional profile links will be added here soon.
+            </p>
+          )}
         </section>
 
         <section className="sm:col-span-2">

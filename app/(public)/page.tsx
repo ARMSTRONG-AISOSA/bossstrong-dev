@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getFeaturedProjects } from "@/lib/data/projects";
 import { ProjectCard } from "@/components/projects/project-card";
 import { buttonVariants } from "@/components/ui/button";
+import { ContactIconLinks } from "@/components/shared/contact-icon-links";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -103,7 +104,7 @@ export default async function HomePage() {
             {SNAPSHOT_AREAS.map((area) => (
               <div
                 key={area.name}
-                className="rounded-lg border border-border bg-surface p-5"
+                className="rounded-lg border border-border bg-surface p-5 transition-all duration-200 ease-in-out hover:-translate-y-1 hover:border-accent hover:shadow-md dark:hover:bg-surface-alt dark:hover:shadow-none"
               >
                 <h3 className="text-body-lg font-semibold text-text-primary">
                   {area.name}
@@ -246,6 +247,10 @@ export default async function HomePage() {
         >
           Get in Touch
         </Link>
+        <ContactIconLinks
+          ids={["github", "linkedin", "email", "whatsapp"]}
+          className="mt-6 justify-center"
+        />
       </section>
     </main>
   );

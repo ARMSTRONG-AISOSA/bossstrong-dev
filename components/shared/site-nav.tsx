@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
+import { cn } from "@/lib/utils";
 
 // homepage-specification.md §4.1 nav content: identity, Home, About, Projects,
 // Blog, Contact, Resume/CV action. No bio, skill lists, or long CTAs here.
@@ -17,6 +19,10 @@ const NAV_LINKS = [
 
 export function SiteNav({ resumeUrl }: { resumeUrl: string | null }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background">
@@ -30,15 +36,31 @@ export function SiteNav({ resumeUrl }: { resumeUrl: string | null }) {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 sm:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-4 py-2 text-small font-medium text-text-secondary transition-colors hover:bg-surface-alt hover:text-text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "group relative px-3 py-2 text-small font-medium transition-colors",
+                  active
+                    ? "text-text-primary"
+                    : "text-text-secondary hover:text-text-primary",
+                )}
+              >
+                {link.label}
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "absolute inset-x-3 -bottom-0.5 h-0.5 origin-left scale-x-0 bg-accent transition-transform duration-200 ease-in-out group-hover:scale-x-100",
+                    active && "scale-x-100",
+                  )}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-2 sm:flex">
@@ -68,16 +90,23 @@ export function SiteNav({ resumeUrl }: { resumeUrl: string | null }) {
           aria-label="Primary"
           className="flex flex-col gap-1 border-t px-6 py-4 sm:hidden"
         >
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="rounded-full px-4 py-3 text-body font-medium text-text-secondary transition-colors hover:bg-surface-alt hover:text-text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "rounded-full px-4 py-3 text-body font-medium transition-colors hover:bg-surface-alt hover:text-text-primary",
+                  active ? "text-text-primary" : "text-text-secondary",
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <div className="mt-2 flex items-center justify-between px-4">
             <ResumeAction resumeUrl={resumeUrl} />
             <ThemeToggle />
