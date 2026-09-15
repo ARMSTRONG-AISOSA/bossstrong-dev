@@ -36,7 +36,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const postEntries: MetadataRoute.Sitemap = (posts ?? []).map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: post.updated_at,
+    // Postgres returns microsecond precision + a "+00:00" offset
+    // (e.g. "2026-09-15T20:54:34.732206+00:00") — passed through as-is,
+    // Next.js writes that raw string into <lastmod> unchanged, which isn't
+    // the millisecond-precision "Z"-suffixed W3C-DTF form most sitemap
+    // parsers expect. Normalize via toISOString() instead.
+    lastModified: new Date(post.updated_at).toISOString(),
   }));
 
   return [...staticEntries, ...projectEntries, ...postEntries];
