@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/contact-form";
 import { ContactIconLinks } from "@/components/shared/contact-icon-links";
 import { CONTACT_LINKS } from "@/lib/data/contact-links";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Contact",
-};
+  description:
+    "Get in touch with Armstrong Omoregie about full-stack roles, freelance work, or technical collaborations.",
+  path: "/contact",
+});
 
 // contact-specification.md §3-4. Real links come from lib/data/contact-links
 // and are omitted until supplied — never fabricated (§6.3,

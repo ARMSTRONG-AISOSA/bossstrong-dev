@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { getFeaturedProjects, getOtherProjects } from "@/lib/data/projects";
 import { ProjectCard } from "@/components/projects/project-card";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Projects",
-};
+  description:
+    "Case studies of real applications Armstrong Omoregie has built end to end — architecture, technical decisions, and the trade-offs behind each one.",
+  path: "/projects",
+});
 
 // projects-specification.md §3-4. No fabricated projects (§7) — an honest
 // empty state until real work is written up, same pattern as Blog.

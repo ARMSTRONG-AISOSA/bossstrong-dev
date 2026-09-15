@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Privacy Policy",
-};
+  description:
+    "What information bossstrong-dev collects through its contact form, how it's used, and how long it's retained.",
+  path: "/privacy",
+});
 
 // privacy-specification.md §3: plain-language copy, no legalese padding.
 // The retention statement (3.3) is quoted verbatim — it must stay accurate

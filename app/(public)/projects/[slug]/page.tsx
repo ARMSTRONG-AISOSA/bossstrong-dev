@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, projects } from "@/lib/data/projects";
+import { buildMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -14,7 +15,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
-  return { title: project?.name ?? "Project" };
+  if (!project) return { title: "Project" };
+  return buildMetadata({
+    title: project.name,
+    description: project.shortDescription,
+    path: `/projects/${project.slug}`,
+  });
 }
 
 // projects-specification.md §4.4's recommended case-study structure —

@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { estimateReadTime } from "@/lib/utils/read-time";
+import { blogPostingJsonLd, buildMetadata } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site-config";
 import type { Category } from "@/types/category";
 import type { Post } from "@/types/post";
 
@@ -34,7 +36,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPublishedPost(slug);
-  return { title: post?.title ?? "Article" };
+  if (!post) return { title: "Article" };
+  return buildMetadata({
+    title: post.title,
+    description: post.excerpt,
+    path: `/blog/${post.slug}`,
+    ...(post.cover_image_url
+      ? {
+          image: post.cover_image_url,
+          imageAlt: post.cover_image_alt ?? post.title,
+        }
+      : {}),
+    type: "article",
+  });
 }
 
 export default async function ArticlePage({
@@ -69,6 +83,19 @@ export default async function ArticlePage({
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
+      {/* BlogPosting schema (seo-specification.md §5) */}
+      <script type="application/ld+json">
+        {JSON.stringify(
+          blogPostingJsonLd({
+            headline: post.title,
+            description: post.excerpt,
+            url: `${SITE_URL}/blog/${post.slug}`,
+            datePublished: post.published_at,
+            dateModified: post.updated_at,
+            image: post.cover_image_url,
+          }),
+        )}
+      </script>
       <article>
         <header className="flex flex-col gap-4">
           <div className="flex flex-wrap items-center gap-2 text-tiny text-text-secondary">

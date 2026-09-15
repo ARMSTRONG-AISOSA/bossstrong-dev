@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getResumeUrl } from "@/lib/resume-status";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "About",
-};
+  description:
+    "Armstrong Omoregie's background — the path from Plant Biology into full-stack development, real work experience, and the engineering approach behind it.",
+  path: "/about",
+});
 
 // about-specification.md §3-4. Content sourced from the owner's real CV
 // (ArmstrongOmoregie-CV-15-09-2026.pdf) and their own account of their

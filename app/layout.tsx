@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import {
+  DEFAULT_DESCRIPTION,
+  DEVELOPER_NAME,
+  SITE_URL,
+} from "@/lib/site-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,10 +19,26 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-// Placeholder site metadata. Real per-route metadata is Phase 6 (seo-specification.md).
+// Root fallback only — every real route sets its own title/description via
+// buildMetadata (lib/seo.ts, seo-specification.md §2). Search-engine
+// verification tags (§11) stay unset until the owner creates the Search
+// Console / Bing Webmaster properties and supplies the real codes.
 export const metadata: Metadata = {
-  title: "bossstrong-dev",
-  description: "Full-stack developer portfolio.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: DEVELOPER_NAME, template: `%s | ${DEVELOPER_NAME}` },
+  description: DEFAULT_DESCRIPTION,
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? {
+          other: {
+            "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
+          },
+        }
+      : {}),
+  },
 };
 
 // Runs before first paint to set the initial color theme with no flash.

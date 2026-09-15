@@ -4,10 +4,17 @@ import { CategoryFilter } from "@/components/blog/category-filter";
 import { ArticleList } from "@/components/blog/article-list";
 import type { Category } from "@/types/category";
 import type { Post } from "@/types/post";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+// seo-specification.md §3: category filter states (?category=...) always
+// canonicalize to this same static /blog metadata — there is no
+// generateMetadata reading searchParams here, so this never drifts.
+export const metadata: Metadata = buildMetadata({
   title: "Blog",
-};
+  description:
+    "Technical writing from Armstrong Omoregie — architecture decisions, debugging write-ups, and how real features got built.",
+  path: "/blog",
+});
 
 type PostWithCategory = Post & { categories: Category | null };
 

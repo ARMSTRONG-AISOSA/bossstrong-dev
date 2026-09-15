@@ -5,10 +5,21 @@ import { getFeaturedProjects } from "@/lib/data/projects";
 import { ProjectCard } from "@/components/projects/project-card";
 import { buttonVariants } from "@/components/ui/button";
 import { ContactIconLinks } from "@/components/shared/contact-icon-links";
+import { CONTACT_LINKS } from "@/lib/data/contact-links";
+import { buildMetadata, personJsonLd } from "@/lib/seo";
+import { DEFAULT_TITLE } from "@/lib/site-config";
 
-export const metadata: Metadata = {
-  title: "Home",
-};
+export const metadata: Metadata = buildMetadata({
+  title: DEFAULT_TITLE,
+  description:
+    "I design and build complete web applications — frontend, backend, database, and deployment — with an emphasis on solving real problems, not just shipping interfaces.",
+  path: "/",
+  absoluteTitle: true,
+});
+
+const PERSON_SAME_AS = CONTACT_LINKS.filter(
+  (link) => (link.id === "github" || link.id === "linkedin") && link.href,
+).map((link) => link.href as string);
 
 const SNAPSHOT_AREAS = [
   {
@@ -107,6 +118,10 @@ export default async function HomePage() {
 
   return (
     <main>
+      {/* Person schema (seo-specification.md §5) — placed once, on Home. */}
+      <script type="application/ld+json">
+        {JSON.stringify(personJsonLd(PERSON_SAME_AS))}
+      </script>
       {/* Hero */}
       <section className="mx-auto max-w-3xl px-6 py-20 text-center sm:py-28">
         <p className="text-small font-medium text-accent">
