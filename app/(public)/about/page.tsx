@@ -50,16 +50,19 @@ const SKILLS: [string, string][] = [
   ["Languages", "JavaScript, TypeScript, Python, Rust, C, HTML5, CSS3, SQL"],
   [
     "Frontend",
-    "React, Next.js, React Native, Tailwind CSS, Bootstrap, Material UI, Responsive Design",
+    "React, Next.js, React Native, Vite, Tailwind CSS, Bootstrap, Material UI, shadcn/ui, WordPress, Wix, Responsive Design",
   ],
-  ["Backend", "Express.js, Node.js, Firebase, Prisma ORM"],
-  ["Databases", "PostgreSQL, Supabase, Relational Database Design"],
+  ["Backend", "Express.js, Node.js, NestJS, Firebase, Prisma ORM"],
+  ["Databases", "PostgreSQL, Supabase, MongoDB, Relational Database Design"],
   ["APIs", "REST APIs, JWT Authentication"],
   [
     "DevOps / Deployment",
     "Docker, Linux (Mint/Debian), Vercel, GitHub Actions, CI/CD Baselines",
   ],
-  ["Tools", "Git, GitHub, Figma, Canva, GIMP, Notion, Trello"],
+  [
+    "Tools",
+    "Git, GitHub, npm, Postman, VS Code, Figma, Canva, GIMP, Notion, Trello, Claude, ChatGPT",
+  ],
 ];
 
 export default async function AboutPage() {

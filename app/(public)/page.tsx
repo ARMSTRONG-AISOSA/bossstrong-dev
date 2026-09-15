@@ -46,13 +46,52 @@ const ENGINEERING_APPROACH = [
 
 const TECH_STACK: { group: string; items: string[] }[] = [
   {
-    group: "Frontend",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    group: "Languages",
+    items: ["TypeScript", "JavaScript", "Python", "Rust", "C"],
   },
-  { group: "Backend", items: ["Next.js Server Actions", "Supabase"] },
-  { group: "Database", items: ["PostgreSQL"] },
-  { group: "Infrastructure / Deployment", items: ["Vercel", "GitHub Actions"] },
-  { group: "Tools", items: ["Git", "GitHub"] },
+  {
+    group: "Frontend",
+    items: [
+      "React",
+      "Next.js",
+      "Vite",
+      "Tailwind CSS",
+      "Bootstrap",
+      "Material UI",
+      "shadcn/ui",
+      "WordPress",
+      "Wix",
+    ],
+  },
+  {
+    group: "Backend",
+    items: [
+      "Next.js Server Actions",
+      "Node.js",
+      "Express.js",
+      "NestJS",
+      "Supabase",
+      "Firebase",
+    ],
+  },
+  { group: "Database", items: ["PostgreSQL", "MongoDB"] },
+  {
+    group: "Infrastructure / Deployment",
+    items: ["Vercel", "Docker", "Linux", "GitHub Actions"],
+  },
+  {
+    group: "Tools",
+    items: [
+      "Git",
+      "GitHub",
+      "npm",
+      "Postman",
+      "VS Code",
+      "Notion",
+      "Claude",
+      "ChatGPT",
+    ],
+  },
 ];
 
 export default async function HomePage() {
