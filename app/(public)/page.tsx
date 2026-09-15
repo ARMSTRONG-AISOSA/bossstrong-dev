@@ -74,7 +74,7 @@ export default async function HomePage() {
           Full-Stack Developer / Software Engineer
         </p>
         <h1 className="mt-3 text-hero font-semibold text-text-primary">
-          [Your Name]
+          Armstrong Omoregie
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-body-lg text-text-secondary">
           I design and build complete web applications — frontend, backend,
@@ -104,7 +104,7 @@ export default async function HomePage() {
             {SNAPSHOT_AREAS.map((area) => (
               <div
                 key={area.name}
-                className="rounded-lg border border-border bg-surface p-5 transition-all duration-200 ease-in-out hover:-translate-y-1 hover:border-accent hover:shadow-md dark:hover:bg-surface-alt dark:hover:shadow-none"
+                className="rounded-lg border border-border bg-surface p-5 transition-all duration-200 ease-in-out hover:-translate-y-1 hover:border-accent hover:shadow-md active:-translate-y-1 active:border-accent active:shadow-md dark:hover:bg-surface-alt dark:hover:shadow-none dark:active:bg-surface-alt dark:active:shadow-none"
               >
                 <h3 className="text-body-lg font-semibold text-text-primary">
                   {area.name}
@@ -132,7 +132,7 @@ export default async function HomePage() {
           </Link>
         </div>
         {featuredProjects.length > 0 ? (
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="stagger-fade-in mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featuredProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
@@ -221,8 +221,12 @@ export default async function HomePage() {
           Behind the Work
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-body text-text-secondary">
-          [A short professional introduction and selected experience highlights
-          will go here — the full story lives on the About page.]
+          Currently a full-stack developer at Brand-Eng Solutions, building
+          end-to-end web applications with TypeScript, React, Next.js, and a
+          Supabase/PostgreSQL backend. Before that, several years of frontend
+          development work — shipping client websites, translating designs into
+          responsive UI, and moving from HTML/CSS into full-stack engineering
+          along the way.
         </p>
         <Link
           href="/about"

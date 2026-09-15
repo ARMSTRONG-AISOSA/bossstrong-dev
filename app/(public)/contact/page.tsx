@@ -17,6 +17,18 @@ const hasDirectLink = CONTACT_LINKS.some(
 const hasProfileLink = CONTACT_LINKS.some(
   (link) => (link.id === "github" || link.id === "linkedin") && link.href,
 );
+
+const AVAILABILITY: [string, string][] = [
+  ["Current Status", "Available for contract roles and freelance projects"],
+  ["Full-Time / Long-Term Contract", "Open to opportunities (W2 or C2C)"],
+  [
+    "Remote Flexibility",
+    "Available for fully remote roles globally — fully equipped for asynchronous workflows and distributed teams",
+  ],
+  ["Timezone", "West Africa (GMT+1 / WAT)"],
+  ["Response Time", "Expect a reply within 12 business hours"],
+];
+
 export default function ContactPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
@@ -64,10 +76,16 @@ export default function ContactPage() {
           <h2 className="text-h3 font-semibold text-text-primary">
             Availability
           </h2>
-          <p className="mt-2 text-small text-text-secondary">
-            Current availability details are being finalized — reach out through
-            the form above and I&apos;ll let you know what fits.
-          </p>
+          <dl className="mt-3 flex flex-col gap-3 text-small">
+            {AVAILABILITY.map(([label, value]) => (
+              <div key={label} className="flex flex-col sm:flex-row sm:gap-3">
+                <dt className="w-56 shrink-0 font-medium text-text-primary">
+                  {label}
+                </dt>
+                <dd className="text-text-secondary">{value}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
       </div>
     </main>

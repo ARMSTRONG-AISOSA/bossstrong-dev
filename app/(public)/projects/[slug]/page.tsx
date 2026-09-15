@@ -45,6 +45,31 @@ export default async function ProjectDetailPage({
     { heading: "Lessons Learned", body: project.lessonsLearned },
   ];
 
+  const linkButtons = (project.liveUrl || project.repoUrl) && (
+    <div className="flex flex-wrap items-center gap-3 text-small">
+      {project.liveUrl ? (
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:opacity-90"
+        >
+          Live App
+        </a>
+      ) : null}
+      {project.repoUrl ? (
+        <a
+          href={project.repoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+        >
+          GitHub Repo
+        </a>
+      ) : null}
+    </div>
+  );
+
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
       <Link
@@ -77,6 +102,7 @@ export default async function ProjectDetailPage({
             ))}
           </div>
         ) : null}
+        {linkButtons}
       </header>
 
       <div className="mt-10 flex flex-col gap-8">
@@ -90,29 +116,8 @@ export default async function ProjectDetailPage({
         ))}
       </div>
 
-      {project.liveUrl || project.repoUrl ? (
-        <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-border pt-6 text-small">
-          {project.liveUrl ? (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
-            >
-              Live App
-            </a>
-          ) : null}
-          {project.repoUrl ? (
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
-            >
-              Source
-            </a>
-          ) : null}
-        </div>
+      {linkButtons ? (
+        <div className="mt-10 border-t border-border pt-6">{linkButtons}</div>
       ) : null}
     </main>
   );

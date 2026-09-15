@@ -34,7 +34,7 @@ export default function ProjectsPage() {
           <h2 className="text-h3 font-semibold text-text-primary">
             Featured Projects
           </h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="stagger-fade-in mt-4 grid gap-4 sm:grid-cols-2">
             {featured.map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
@@ -47,7 +47,7 @@ export default function ProjectsPage() {
           <h2 className="text-h3 font-semibold text-text-primary">
             Other Projects
           </h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="stagger-fade-in mt-4 grid gap-4 sm:grid-cols-2">
             {other.map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
