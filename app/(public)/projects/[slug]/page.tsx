@@ -7,6 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site-config";
 import { ShareButton } from "@/components/shared/share-button";
 import { GithubIcon } from "@/components/shared/brand-icons";
+import { createClient } from "@/lib/supabase/server";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -71,7 +72,7 @@ export default async function ProjectDetailPage({
             href={proj.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:opacity-90"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-primary px-4 font-medium text-primary-foreground transition-colors hover:opacity-90"
           >
             <Globe className="h-4 w-4" aria-hidden="true" />
             Live App
@@ -82,7 +83,7 @@ export default async function ProjectDetailPage({
             href={proj.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-4 font-medium text-text-primary transition-colors hover:bg-surface-alt"
           >
             <GithubIcon className="h-4 w-4" aria-hidden="true" />
             GitHub Repo
@@ -100,6 +101,16 @@ export default async function ProjectDetailPage({
   }
 
   const linkButtons = renderLinkButtons(false);
+
+  // Reciprocal half of Related Content (blog-admin-specification.md §3.2 —
+  // "this is a two-way relationship, not one-directional"). Same
+  // published-only filter RLS already enforces, never a separate query.
+  const supabase = await createClient();
+  const { data: relatedPosts } = await supabase
+    .from("posts")
+    .select("slug, title, excerpt")
+    .eq("status", "published")
+    .eq("related_project_slug", proj.slug);
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
@@ -146,6 +157,30 @@ export default async function ProjectDetailPage({
           </section>
         ))}
       </div>
+
+      {relatedPosts && relatedPosts.length > 0 ? (
+        <div className="mt-10 border-t border-border pt-6">
+          <p className="text-small font-medium text-text-secondary">
+            Related Writing
+          </p>
+          <div className="mt-2 flex flex-col gap-2">
+            {relatedPosts.map((relatedPost) => (
+              <Link
+                key={relatedPost.slug}
+                href={`/blog/${relatedPost.slug}`}
+                className="block rounded-lg border border-border bg-surface p-4 transition-colors hover:border-accent"
+              >
+                <p className="font-semibold text-text-primary">
+                  {relatedPost.title}
+                </p>
+                <p className="mt-1 text-small text-text-secondary">
+                  {relatedPost.excerpt}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <div className="mt-10 border-t border-border pt-6">
         {renderLinkButtons(true)}

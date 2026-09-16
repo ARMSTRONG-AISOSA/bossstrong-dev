@@ -21,9 +21,21 @@
   --color-border: #e4e8e6;
   --color-accent: #12b886;
   --color-accent-hover: #0ca678;
+  /* Separate from --color-accent on purpose (§10): the brand teal is
+     deliberately bright so a dark button label reads clearly on it, but that
+     same brightness measures only 2.55:1 as plain text on a light
+     background — well under the 4.5:1 AA baseline. One token can't serve
+     both roles, so this darker shade is for text/links only; buttons keep
+     using --color-accent untouched. Dark mode's own accent already clears
+     AA as text (11.95:1), so it's reassigned to the same value there. */
+  --color-accent-text: #087454;
   --color-success: #37b24d;
   --color-warning: #f59f00;
-  --color-destructive: #e03131;
+  /* #e03131 measured at 3.90:1 as actually rendered (text-destructive on the
+     admin destructive button's tinted bg-destructive/10 surface) — below the
+     4.5:1 AA baseline (§10). Darkened; dark mode's own shade already clears
+     AA and is untouched. */
+  --color-destructive: #c92a2a;
 
   /* shadcn/ui semantic roles (from `shadcn init`), aliased onto the tokens
      above rather than shadcn's own Nova/neutral defaults, so every copied-in
@@ -90,6 +102,7 @@
   --color-border: #22302a;
   --color-accent: #2ee6a6;
   --color-accent-hover: #25c495;
+  --color-accent-text: var(--color-accent);
   --color-success: #51cf66;
   --color-warning: #fcc419;
   --color-destructive: #ff6b6b;

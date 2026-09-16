@@ -124,7 +124,7 @@ export default async function HomePage() {
       </script>
       {/* Hero */}
       <section className="mx-auto max-w-3xl px-6 py-20 text-center sm:py-28">
-        <p className="text-small font-medium text-accent">
+        <p className="text-small font-medium text-accent-text">
           Full-Stack Developer / Software Engineer
         </p>
         <h1 className="mt-3 text-hero font-semibold text-text-primary">
@@ -180,7 +180,7 @@ export default async function HomePage() {
           </h2>
           <Link
             href="/projects"
-            className="text-small font-medium text-accent underline underline-offset-2"
+            className="text-small font-medium text-accent-text underline underline-offset-2"
           >
             View all
           </Link>
@@ -207,7 +207,7 @@ export default async function HomePage() {
           <ol className="mt-6 flex flex-col gap-3">
             {ENGINEERING_APPROACH.map((step, index) => (
               <li key={step} className="flex gap-3">
-                <span className="text-small font-medium text-accent">
+                <span className="text-small font-medium text-accent-text">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="text-body text-text-secondary">{step}</span>
@@ -253,7 +253,7 @@ export default async function HomePage() {
             {hasEnoughWriting ? (
               <Link
                 href="/blog"
-                className="text-small font-medium text-accent underline underline-offset-2"
+                className="text-small font-medium text-accent-text underline underline-offset-2"
               >
                 Read the blog
               </Link>
@@ -284,7 +284,7 @@ export default async function HomePage() {
         </p>
         <Link
           href="/about"
-          className="mt-4 inline-block text-small font-medium text-accent underline underline-offset-2"
+          className="mt-4 inline-block text-small font-medium text-accent-text underline underline-offset-2"
         >
           Read the full story
         </Link>

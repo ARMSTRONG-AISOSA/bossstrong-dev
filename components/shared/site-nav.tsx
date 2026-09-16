@@ -126,7 +126,7 @@ function ResumeAction({ resumeUrl }: { resumeUrl: string | null }) {
       <span
         aria-disabled="true"
         title="Resume not available yet"
-        className="cursor-not-allowed rounded-full border px-4 py-2 text-small font-medium text-text-secondary opacity-50"
+        className="inline-flex min-h-11 cursor-not-allowed items-center rounded-full border px-4 text-small font-medium text-text-secondary opacity-50"
       >
         Resume
       </span>
@@ -138,7 +138,7 @@ function ResumeAction({ resumeUrl }: { resumeUrl: string | null }) {
       href={resumeUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="rounded-full bg-primary px-4 py-2 text-small font-medium text-primary-foreground transition-colors hover:opacity-90"
+      className="inline-flex min-h-11 items-center rounded-full bg-primary px-4 text-small font-medium text-primary-foreground transition-colors hover:opacity-90"
     >
       Resume
     </a>

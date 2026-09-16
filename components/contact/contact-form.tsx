@@ -119,7 +119,12 @@ export function ContactForm() {
         </p>
       ) : null}
 
-      <Button type="submit" disabled={isPending} className="mt-1 self-start">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={isPending}
+        className="mt-1 self-start"
+      >
         {isPending ? "Sending…" : "Send Message"}
       </Button>
     </form>

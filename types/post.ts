@@ -10,6 +10,7 @@ export type Post = {
   cover_image_alt: string | null;
   category_id: string;
   tags: string[];
+  related_project_slug: string | null;
   status: PostStatus;
   published_at: string | null;
   created_at: string;

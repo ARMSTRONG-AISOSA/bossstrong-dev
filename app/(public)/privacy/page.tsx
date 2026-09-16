@@ -92,7 +92,7 @@ export default function PrivacyPage() {
             other privacy concern, reach out through the{" "}
             <Link
               href="/contact"
-              className="text-accent underline underline-offset-2"
+              className="text-accent-text underline underline-offset-2"
             >
               Contact page
             </Link>

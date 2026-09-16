@@ -27,9 +27,9 @@ export function CategoryFilter({
       <Link
         href="/blog"
         aria-pressed={isAllSelected}
-        className={`rounded-full border px-4 py-1.5 text-small font-medium transition-colors ${
+        className={`inline-flex min-h-11 items-center rounded-full border px-4 text-small font-medium transition-colors ${
           isAllSelected
-            ? "border-accent bg-accent/10 text-accent"
+            ? "border-accent bg-accent/10 text-accent-text"
             : "border-border text-text-secondary hover:bg-surface-alt"
         }`}
       >
@@ -46,9 +46,9 @@ export function CategoryFilter({
             key={category.id}
             href={hrefFor(nextSlugs)}
             aria-pressed={isSelected}
-            className={`rounded-full border px-4 py-1.5 text-small font-medium transition-colors ${
+            className={`inline-flex min-h-11 items-center rounded-full border px-4 text-small font-medium transition-colors ${
               isSelected
-                ? "border-accent bg-accent/10 text-accent"
+                ? "border-accent bg-accent/10 text-accent-text"
                 : "border-border text-text-secondary hover:bg-surface-alt"
             }`}
           >

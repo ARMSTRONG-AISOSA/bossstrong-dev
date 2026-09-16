@@ -16,6 +16,10 @@ export const postSchema = z
     cover_image_alt: z.string(),
     category_id: z.string().min(1, "Category is required"),
     tags: z.array(z.string()),
+    // Empty string means "no related project" — converted to null on write
+    // (lib/data/projects.ts is the source of truth for valid slugs; the
+    // editor only ever offers a select of real ones, see PostEditor).
+    related_project_slug: z.string(),
     status: z.enum(["draft", "published"]),
   })
   .refine((data) => !data.cover_image_url || !!data.cover_image_alt.trim(), {

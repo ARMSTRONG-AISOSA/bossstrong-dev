@@ -1,0 +1,18 @@
+name: Supabase Weekly Backup
+on:
+  schedule:
+    - cron: "0 3 * * 0" # every Sunday at 03:00 UTC
+  workflow_dispatch: {}
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: supabase/setup-cli@v1
+      - name: Dump database
+        run: supabase db dump --db-url "${{ secrets.SUPABASE_DB_URL }}" -f backup.sql
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-backup-${{ github.run_id }}
+          path: backup.sql
+          retention-days: 90

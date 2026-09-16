@@ -14,6 +14,7 @@ import { CoverImageField } from "@/components/admin/cover-image-field";
 import { postSchema, type PostValues } from "@/lib/validation/post-schema";
 import { slugify } from "@/lib/utils/slugify";
 import { createPost, updatePost } from "@/app/admin/(dashboard)/posts/actions";
+import { projects } from "@/lib/data/projects";
 import type { Category } from "@/types/category";
 import type { Post } from "@/types/post";
 
@@ -42,6 +43,7 @@ export function PostEditor({
           cover_image_alt: post.cover_image_alt ?? "",
           category_id: post.category_id,
           tags: post.tags,
+          related_project_slug: post.related_project_slug ?? "",
           status: post.status,
         }
       : {
@@ -53,6 +55,7 @@ export function PostEditor({
           cover_image_alt: "",
           category_id: categories[0]?.id ?? "",
           tags: [],
+          related_project_slug: "",
           status: "draft",
         },
   });
@@ -174,6 +177,21 @@ export function PostEditor({
                   {errors.category_id.message}
                 </p>
               ) : null}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="related-project">Related Project</Label>
+              <Select
+                id="related-project"
+                {...register("related_project_slug")}
+              >
+                <option value="">None</option>
+                {projects.map((project) => (
+                  <option key={project.slug} value={project.slug}>
+                    {project.name}
+                  </option>
+                ))}
+              </Select>
             </div>
 
             <div className="flex flex-col gap-1.5">

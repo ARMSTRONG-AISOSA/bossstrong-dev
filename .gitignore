@@ -21,6 +21,9 @@ yarn-error.log*
 # vercel
 .vercel/
 
+# Supabase CLI's own disposable cache (not the migrations we author by hand)
+supabase/.temp/
+
 # typescript build info
 *.tsbuildinfo
 

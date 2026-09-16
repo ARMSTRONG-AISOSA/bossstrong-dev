@@ -9,6 +9,7 @@ import { ShareButton } from "@/components/shared/share-button";
 import { estimateReadTime } from "@/lib/utils/read-time";
 import { blogPostingJsonLd, buildMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site-config";
+import { getProjectBySlug } from "@/lib/data/projects";
 import type { Category } from "@/types/category";
 import type { Post } from "@/types/post";
 
@@ -82,6 +83,15 @@ export default async function ArticlePage({
     .limit(1);
   const otherPost = otherPostsData?.[0] as
     { slug: string; title: string } | undefined;
+
+  // Related Content (blog-admin-specification.md §3.2): the admin can only
+  // ever pick a real, current project slug (see PostEditor), but resolve
+  // defensively anyway — if that project were ever removed from
+  // lib/data/projects.ts, this silently omits the section rather than
+  // linking to a 404.
+  const relatedProject = post.related_project_slug
+    ? getProjectBySlug(post.related_project_slug)
+    : undefined;
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
@@ -162,20 +172,29 @@ export default async function ArticlePage({
           <MarkdownRenderer content={post.body} />
         </div>
 
-        {/*
-          Related Content (blog-admin-specification.md §3.2) — a card linking
-          to a companion project when one exists. No schema field exists yet
-          to store that relationship (backend-specification.md's posts table
-          has no related-project column, and Projects aren't database-backed
-          per the current specs), so this always resolves to "no related
-          project" for now. Revisit once Phase 5.5 (Projects) exists and it's
-          decided how the relationship should be modeled.
-        */}
+        {relatedProject ? (
+          <div className="mt-10 border-t border-border pt-6">
+            <p className="text-small font-medium text-text-secondary">
+              Related Project
+            </p>
+            <Link
+              href={`/projects/${relatedProject.slug}`}
+              className="mt-2 block rounded-lg border border-border bg-surface p-4 transition-colors hover:border-accent"
+            >
+              <p className="font-semibold text-text-primary">
+                {relatedProject.name}
+              </p>
+              <p className="mt-1 text-small text-text-secondary">
+                {relatedProject.shortDescription}
+              </p>
+            </Link>
+          </div>
+        ) : null}
 
         <nav className="mt-12 flex flex-wrap items-center gap-3 border-t border-border pt-6 text-small">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-4 font-medium text-text-primary transition-colors hover:bg-surface-alt"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to Blog
@@ -187,7 +206,7 @@ export default async function ArticlePage({
           {otherPost ? (
             <Link
               href={`/blog/${otherPost.slug}`}
-              className="rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+              className="inline-flex min-h-11 items-center rounded-full border border-border px-4 font-medium text-text-primary transition-colors hover:bg-surface-alt"
             >
               Read: {otherPost.title}
             </Link>

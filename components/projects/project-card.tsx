@@ -31,7 +31,7 @@ export function ProjectCard({ project }: { project: Project }) {
       </p>
       <Link
         href={href}
-        className="inline-flex w-fit items-center gap-1 text-small font-medium text-accent underline underline-offset-2"
+        className="inline-flex w-fit items-center gap-1 text-small font-medium text-accent-text underline underline-offset-2"
       >
         Read more
         <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -55,7 +55,7 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 font-medium text-primary-foreground transition-colors hover:opacity-90"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-primary px-3 font-medium text-primary-foreground transition-colors hover:opacity-90"
             >
               <Globe className="h-3.5 w-3.5" aria-hidden="true" />
               Live App
@@ -66,7 +66,7 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-3 font-medium text-text-primary transition-colors hover:bg-surface-alt"
             >
               <GithubIcon className="h-3.5 w-3.5" aria-hidden="true" />
               GitHub Repo

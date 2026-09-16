@@ -74,7 +74,7 @@ export function ResumeManager({
           href={publicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 inline-block text-small text-accent underline underline-offset-2"
+          className="mt-2 inline-block text-small text-accent-text underline underline-offset-2"
         >
           Preview current resume
         </a>

@@ -18,6 +18,7 @@ function toRow(values: PostValues) {
     cover_image_alt: values.cover_image_alt || null,
     category_id: values.category_id,
     tags: values.tags,
+    related_project_slug: values.related_project_slug || null,
     status: values.status,
   };
 }
