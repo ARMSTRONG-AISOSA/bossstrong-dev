@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe } from "lucide-react";
+import { GithubIcon } from "@/components/shared/brand-icons";
 import type { Project } from "@/lib/data/projects";
 
 const DESCRIPTION_LIMIT = 100;
@@ -54,8 +55,9 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-primary px-3 py-1.5 font-medium text-primary-foreground transition-colors hover:opacity-90"
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 font-medium text-primary-foreground transition-colors hover:opacity-90"
             >
+              <Globe className="h-3.5 w-3.5" aria-hidden="true" />
               Live App
             </a>
           ) : null}
@@ -64,8 +66,9 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-border px-3 py-1.5 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 font-medium text-text-primary transition-colors hover:bg-surface-alt"
             >
+              <GithubIcon className="h-3.5 w-3.5" aria-hidden="true" />
               GitHub Repo
             </a>
           ) : null}

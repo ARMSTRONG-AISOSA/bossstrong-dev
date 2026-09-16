@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
+import { ShareButton } from "@/components/shared/share-button";
 import { estimateReadTime } from "@/lib/utils/read-time";
 import { blogPostingJsonLd, buildMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site-config";
@@ -173,10 +175,15 @@ export default async function ArticlePage({
         <nav className="mt-12 flex flex-wrap items-center gap-3 border-t border-border pt-6 text-small">
           <Link
             href="/blog"
-            className="rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+            className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
           >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to Blog
           </Link>
+          <ShareButton
+            url={`${SITE_URL}/blog/${post.slug}`}
+            title={post.title}
+          />
           {otherPost ? (
             <Link
               href={`/blog/${otherPost.slug}`}

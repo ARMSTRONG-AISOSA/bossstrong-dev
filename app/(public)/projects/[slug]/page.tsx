@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Globe } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, projects } from "@/lib/data/projects";
 import { buildMetadata } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site-config";
+import { ShareButton } from "@/components/shared/share-button";
+import { GithubIcon } from "@/components/shared/brand-icons";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -36,6 +40,10 @@ export default async function ProjectDetailPage({
   const project = getProjectBySlug(slug);
 
   if (!project) notFound();
+  // A `const` re-binding so TS's narrowing survives inside the closure
+  // below — narrowing from the `notFound()` guard above doesn't carry into
+  // a nested function referencing the original `project` binding.
+  const proj = project;
 
   const sections: { heading: string; body: string }[] = [
     { heading: "Problem", body: project.problem },
@@ -51,30 +59,47 @@ export default async function ProjectDetailPage({
     { heading: "Lessons Learned", body: project.lessonsLearned },
   ];
 
-  const linkButtons = (project.liveUrl || project.repoUrl) && (
-    <div className="flex flex-wrap items-center gap-3 text-small">
-      {project.liveUrl ? (
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:opacity-90"
-        >
-          Live App
-        </a>
-      ) : null}
-      {project.repoUrl ? (
-        <a
-          href={project.repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
-        >
-          GitHub Repo
-        </a>
-      ) : null}
-    </div>
-  );
+  // Share only appears in the bottom occurrence of this row, not the one
+  // right under the header — the owner asked for it specifically "at the
+  // bottom of the page as the next button besides GitHub Repo."
+  function renderLinkButtons(includeShare: boolean) {
+    if (!proj.liveUrl && !proj.repoUrl && !includeShare) return null;
+    return (
+      <div className="flex flex-wrap items-center gap-3 text-small">
+        {proj.liveUrl ? (
+          <a
+            href={proj.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:opacity-90"
+          >
+            <Globe className="h-4 w-4" aria-hidden="true" />
+            Live App
+          </a>
+        ) : null}
+        {proj.repoUrl ? (
+          <a
+            href={proj.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+          >
+            <GithubIcon className="h-4 w-4" aria-hidden="true" />
+            GitHub Repo
+          </a>
+        ) : null}
+        {includeShare ? (
+          <ShareButton
+            url={`${SITE_URL}/projects/${proj.slug}`}
+            title={proj.name}
+            variant="outline"
+          />
+        ) : null}
+      </div>
+    );
+  }
+
+  const linkButtons = renderLinkButtons(false);
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
@@ -122,9 +147,9 @@ export default async function ProjectDetailPage({
         ))}
       </div>
 
-      {linkButtons ? (
-        <div className="mt-10 border-t border-border pt-6">{linkButtons}</div>
-      ) : null}
+      <div className="mt-10 border-t border-border pt-6">
+        {renderLinkButtons(true)}
+      </div>
     </main>
   );
 }

@@ -138,7 +138,7 @@ function ResumeAction({ resumeUrl }: { resumeUrl: string | null }) {
       href={resumeUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="rounded-full border px-4 py-2 text-small font-medium text-text-primary transition-colors hover:bg-surface-alt"
+      className="rounded-full bg-primary px-4 py-2 text-small font-medium text-primary-foreground transition-colors hover:opacity-90"
     >
       Resume
     </a>
