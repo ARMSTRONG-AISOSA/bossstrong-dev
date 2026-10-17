@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Globe } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -8,6 +9,24 @@ import { SITE_URL } from "@/lib/site-config";
 import { ShareButton } from "@/components/shared/share-button";
 import { GithubIcon } from "@/components/shared/brand-icons";
 import { createClient } from "@/lib/supabase/server";
+
+// Case-study copy in lib/data/projects.ts marks file names and identifiers
+// with `backticks`; render those spans as inline code, styled to match
+// `.markdown-body code` in app/globals.css. Plain text only — no markdown.
+function renderWithInlineCode(text: string) {
+  return text.split(/`([^`]+)`/).map((part, i) =>
+    i % 2 === 1 ? (
+      <code
+        key={i}
+        className="rounded-sm bg-surface-alt px-[0.375em] py-[0.125em] font-mono text-[0.875em]"
+      >
+        {part}
+      </code>
+    ) : (
+      part
+    ),
+  );
+}
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -122,15 +141,26 @@ export default async function ProjectDetailPage({
       </Link>
 
       <header className="mt-6 flex flex-col gap-4">
+        {project.image ? (
+          <Image
+            src={project.image.src}
+            alt={project.image.alt}
+            width={1440}
+            height={900}
+            priority
+            sizes="(min-width: 672px) 672px, 100vw"
+            className="mb-2 aspect-16/10 w-full rounded-lg border border-border object-cover object-top"
+          />
+        ) : null}
         <h1 className="text-h1 font-semibold text-text-primary">
           {project.name}
         </h1>
         <p className="text-body-lg text-text-secondary">
-          {project.shortDescription}
+          {renderWithInlineCode(project.shortDescription)}
         </p>
         <p className="text-small text-text-secondary">
           <span className="font-medium text-text-primary">Role:</span>{" "}
-          {project.role}
+          {renderWithInlineCode(project.role)}
         </p>
         {project.techStack.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">
@@ -153,7 +183,9 @@ export default async function ProjectDetailPage({
             <h2 className="text-h3 font-semibold text-text-primary">
               {section.heading}
             </h2>
-            <p className="mt-2 text-body text-text-secondary">{section.body}</p>
+            <p className="mt-2 text-body text-text-secondary">
+              {renderWithInlineCode(section.body)}
+            </p>
           </section>
         ))}
       </div>

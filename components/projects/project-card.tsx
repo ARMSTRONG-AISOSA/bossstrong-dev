@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Globe } from "lucide-react";
 import { GithubIcon } from "@/components/shared/brand-icons";
@@ -20,6 +21,25 @@ export function ProjectCard({ project }: { project: Project }) {
 
   return (
     <div className="group flex flex-col gap-3 rounded-lg border border-border bg-surface p-6 transition-colors hover:border-accent">
+      {project.image ? (
+        // Decorative duplicate of the title link below, so it's skipped by
+        // keyboard and screen readers rather than announced twice.
+        <Link
+          href={href}
+          tabIndex={-1}
+          aria-hidden="true"
+          className="-mx-6 -mt-6 mb-1 block overflow-hidden rounded-t-lg border-b border-border"
+        >
+          <Image
+            src={project.image.src}
+            alt=""
+            width={1440}
+            height={900}
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="aspect-16/10 w-full object-cover object-top"
+          />
+        </Link>
+      ) : null}
       <Link
         href={href}
         className="text-h3 font-semibold text-text-primary transition-colors group-hover:text-accent"
