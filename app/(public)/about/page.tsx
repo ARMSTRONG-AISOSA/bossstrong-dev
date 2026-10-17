@@ -75,10 +75,10 @@ export default async function AboutPage() {
   const resumeUrl = await getResumeUrl();
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16">
+    <main className="mx-auto max-w-5xl px-6 py-16">
       <section>
         <h1 className="text-h1 font-semibold text-text-primary">About</h1>
-        <p className="mt-4 text-body-lg text-text-secondary">
+        <p className="mt-4 max-w-3xl text-body-lg text-text-secondary">
           I&apos;m Armstrong Omoregie, a full-stack developer working across
           TypeScript, React, and Next.js on the frontend, and Express.js,
           Firebase, PostgreSQL, and Supabase on the backend. I like taking a
@@ -91,7 +91,7 @@ export default async function AboutPage() {
 
       <section className="mt-12">
         <h2 className="text-h2 font-semibold text-text-primary">My Journey</h2>
-        <p className="mt-3 text-body text-text-secondary">
+        <p className="mt-3 max-w-3xl text-body text-text-secondary">
           I studied Plant Biology and Biotechnology at the University of Benin,
           graduating in 2019. I enjoyed the course, but I&apos;d already become
           fascinated with computers — how they worked, and the software and
@@ -131,7 +131,7 @@ export default async function AboutPage() {
         <h2 className="text-h2 font-semibold text-text-primary">
           Engineering Philosophy
         </h2>
-        <p className="mt-3 text-body text-text-secondary">
+        <p className="mt-3 max-w-3xl text-body text-text-secondary">
           I try to start from the actual data and business rules before writing
           any UI — a well-designed schema with the right constraints, like
           row-level security, prevents a lot of bugs before they can happen. I

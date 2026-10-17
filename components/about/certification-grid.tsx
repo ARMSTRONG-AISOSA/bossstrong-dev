@@ -22,7 +22,10 @@ export function CertificationGrid({
 
   return (
     <>
-      <div id="certification-grid" className="mt-3 grid gap-4 sm:grid-cols-2">
+      <div
+        id="certification-grid"
+        className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+      >
         {visible.map((certification) => (
           <CertificationCard
             key={certification.name}
