@@ -1,0 +1,7 @@
+# Read by `supabase db dump` in .github/workflows/supabase-backup.yml so the
+# CLI uses a pg_dump matching the remote server's Postgres major version.
+# Update major_version if Supabase upgrades the project's Postgres.
+project_id = "bossstrong-dev"
+
+[db]
+major_version = 17

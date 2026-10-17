@@ -7,6 +7,7 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4 # makes supabase/config.toml (db.major_version) available to the CLI
       - uses: supabase/setup-cli@v1
       - name: Dump database
         run: supabase db dump --db-url "${{ secrets.SUPABASE_DB_URL }}" -f backup.sql
