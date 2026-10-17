@@ -6,7 +6,17 @@ import type { NextConfig } from "next";
  * The CSP is deliberately the pragmatic (non-nonce) baseline from that section, not a
  * maximal policy; 'unsafe-inline' on script-src is intentional for now. Revisit toward a
  * stricter nonce-based CSP later per that spec, not ad hoc.
+ *
+ * Dev only: React uses eval() in development for debugging features
+ * (reconstructing callstacks), so `next dev` adds 'unsafe-eval'. Production
+ * never calls eval() and gets the spec's policy unchanged (owner-approved,
+ * 2026-10-17).
  */
+const scriptSrc =
+  process.env.NODE_ENV === "development"
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    : "script-src 'self' 'unsafe-inline'";
+
 const securityHeaders = [
   {
     key: "Strict-Transport-Security",
@@ -21,8 +31,7 @@ const securityHeaders = [
   },
   {
     key: "Content-Security-Policy",
-    value:
-      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co",
+    value: `default-src 'self'; ${scriptSrc}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co`,
   },
 ];
 
