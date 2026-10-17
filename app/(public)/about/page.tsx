@@ -75,7 +75,7 @@ export default async function AboutPage() {
   const resumeUrl = await getResumeUrl();
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
+    <main className="mx-auto max-w-4xl px-6 py-16">
       <section>
         <h1 className="text-h1 font-semibold text-text-primary">About</h1>
         <p className="mt-4 max-w-3xl text-body-lg text-text-secondary">
