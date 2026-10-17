@@ -9,6 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4 # makes supabase/config.toml (db.major_version) available to the CLI
       - uses: supabase/setup-cli@v1
+        with:
+          version: 2.118.0 # v1's default (2.20.3) predates db.major_version = 17 support
       - name: Dump database
         run: supabase db dump --db-url "${{ secrets.SUPABASE_DB_URL }}" -f backup.sql
       - name: Upload backup artifact
