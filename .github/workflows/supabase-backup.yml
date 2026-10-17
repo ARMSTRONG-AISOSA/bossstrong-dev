@@ -13,9 +13,13 @@ jobs:
           version: 2.118.0 # v1's default (2.20.3) predates db.major_version = 17 support
       - name: Dump database
         run: supabase db dump --db-url "${{ secrets.SUPABASE_DB_URL }}" -f backup.sql
+      - name: Dump data # the dump above is schema-only; this captures the rows
+        run: supabase db dump --db-url "${{ secrets.SUPABASE_DB_URL }}" --data-only -f data.sql
       - name: Upload backup artifact
         uses: actions/upload-artifact@v4
         with:
           name: supabase-backup-${{ github.run_id }}
-          path: backup.sql
+          path: |
+            backup.sql
+            data.sql
           retention-days: 90
