@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CertificationGrid } from "@/components/about/certification-grid";
+import { certifications } from "@/lib/data/certifications";
 import { getResumeUrl } from "@/lib/resume-status";
 import { buildMetadata } from "@/lib/seo";
 
@@ -157,6 +159,13 @@ export default async function AboutPage() {
             </div>
           ))}
         </dl>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-h2 font-semibold text-text-primary">
+          Certifications
+        </h2>
+        <CertificationGrid certifications={certifications} />
       </section>
 
       <section className="mt-12 flex flex-wrap items-center gap-3 border-t border-border pt-8">
