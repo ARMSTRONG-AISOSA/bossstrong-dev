@@ -40,10 +40,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return { title: "Project" };
+  // seo-specification.md §4: a page's own image for OG/Twitter, falling
+  // back to the site-wide default when the project has no hero image.
   return buildMetadata({
-    title: project.name,
+    title: project.seoTitle ?? project.name,
     description: project.shortDescription,
     path: `/projects/${project.slug}`,
+    ...(project.image
+      ? { image: project.image.src, imageAlt: project.image.alt }
+      : {}),
   });
 }
 

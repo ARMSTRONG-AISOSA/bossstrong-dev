@@ -12,6 +12,10 @@
 export type Project = {
   slug: string;
   name: string;
+  // Shorter <title>/OG title when `name` plus the " | Armstrong Omoregie"
+  // template would run past ~60 characters and get cut off in search
+  // results. The on-page H1 always uses `name`.
+  seoTitle?: string;
   shortDescription: string;
   featured: boolean;
   problem: string;
@@ -131,6 +135,7 @@ export const projects: Project[] = [
   {
     slug: "blessing-osamudiamen-portfolio",
     name: "Accounting/Financial Analyst Portfolio — Blessing Osamudiamen",
+    seoTitle: "Blessing Osamudiamen — Finance Portfolio",
     shortDescription:
       "A portfolio for a Chartered Accountant and financial analyst — five finance case studies as indexable pages, with structured data that tells search engines exactly who she is.",
     featured: true,

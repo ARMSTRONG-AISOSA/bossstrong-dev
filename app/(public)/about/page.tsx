@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "About",
   description:
-    "Armstrong Omoregie's background — the path from Plant Biology into full-stack development, real work experience, and the engineering approach behind it.",
+    "Armstrong Omoregie's background — the path from Plant Biology into full-stack development, real work experience, the engineering approach behind it, and verified certifications.",
   path: "/about",
 });
 
