@@ -26,7 +26,9 @@ function getServerSnapshot() {
   return false;
 }
 
-export function ThemeToggle() {
+// `className` replaces the default public-site styling — the admin nav passes
+// its own denser, instant (no transition) look (design spec §9).
+export function ThemeToggle({ className }: { className?: string } = {}) {
   const isDark = useSyncExternalStore(
     subscribe,
     getSnapshot,
@@ -51,7 +53,10 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full border text-text-secondary transition-colors hover:bg-surface-alt hover:text-text-primary"
+      className={
+        className ??
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border text-text-secondary transition-colors hover:bg-surface-alt hover:text-text-primary"
+      }
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

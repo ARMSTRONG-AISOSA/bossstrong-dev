@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/app/admin/(dashboard)/actions";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { cn } from "@/lib/utils";
 
 // Nav completeness rule (blog-admin-specification.md §4.0): must link to
@@ -50,11 +51,16 @@ export function AdminNav() {
             })}
           </nav>
         </div>
-        <form action={signOut}>
-          <Button type="submit" variant="ghost" size="sm">
-            Logout
-          </Button>
-        </form>
+        <div className="flex items-center gap-1">
+          {/* Same localStorage-backed choice as the public nav's toggle, so
+              switching here or on the site keeps both in sync. */}
+          <ThemeToggle className="inline-flex h-8 w-8 items-center justify-center rounded-md text-text-secondary hover:bg-surface-alt hover:text-accent" />
+          <form action={signOut}>
+            <Button type="submit" variant="ghost" size="sm">
+              Logout
+            </Button>
+          </form>
+        </div>
       </div>
     </header>
   );
