@@ -209,6 +209,32 @@
   background-color: transparent;
   padding: 0;
 }
+/* GFM tables (remark-gfm). The wrapper scrolls sideways on narrow screens
+   instead of squashing columns or overflowing the page. */
+.markdown-body .table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+.markdown-body th,
+.markdown-body td {
+  padding: 0.5em 0.875em;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+}
+.markdown-body th {
+  font-weight: 600;
+  background-color: var(--color-surface-alt);
+}
+.markdown-body tbody tr:last-child td {
+  border-bottom: 0;
+}
 
 /* Syntax highlighting (rehype-highlight token classes) — a compact,
    token-driven palette instead of pulling in a full highlight.js theme
