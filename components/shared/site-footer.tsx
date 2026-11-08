@@ -78,16 +78,21 @@ export function SiteFooter() {
         </nav>
       </div>
 
-      <div className="border-t px-6 py-6">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-tiny text-text-secondary">
+      {/* Padding sits inside the max-w-6xl box, as in the row above, so both
+          rows (and the header) share the same left and right edges. */}
+      <div className="border-t">
+        {/* text-tiny is set here, not on the Link: cn()'s tailwind-merge
+            mistakes the custom text-tiny size for a color and drops it next
+            to text-text-*, which left Privacy Policy at 16px. */}
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-6 text-tiny sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-text-secondary">
             © {year} bossstrong-dev. All rights reserved.
           </p>
           <Link
             href="/privacy"
             aria-current={isActive("/privacy") ? "page" : undefined}
             className={cn(
-              "text-tiny underline-offset-4 transition-colors hover:text-accent hover:underline",
+              "underline-offset-4 transition-colors hover:text-accent hover:underline",
               isActive("/privacy")
                 ? "text-text-primary"
                 : "text-text-secondary",
