@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { getFeaturedProjects } from "@/lib/data/projects";
+import { getProjectBySlug, type Project } from "@/lib/data/projects";
 import { ProjectCard } from "@/components/projects/project-card";
 import { buttonVariants } from "@/components/ui/button";
 import { ContactIconLinks } from "@/components/shared/contact-icon-links";
 import { CONTACT_LINKS } from "@/lib/data/contact-links";
+
+// The three featured projects shown on Home, in order, picked by the owner
+// (2026-11-08: Dexplorer took Kempt Laundry's slot). /projects still lists
+// every featured project.
+const HOME_PROJECT_SLUGS = [
+  "bossstrong-dev",
+  "dexplorer",
+  "blessing-osamudiamen-portfolio",
+];
 import { buildMetadata, personJsonLd } from "@/lib/seo";
 import { DEFAULT_TITLE } from "@/lib/site-config";
 
@@ -114,7 +123,9 @@ export default async function HomePage() {
 
   const hasEnoughWriting = (count ?? 0) >= 2;
 
-  const featuredProjects = getFeaturedProjects().slice(0, 3);
+  const featuredProjects = HOME_PROJECT_SLUGS.map(getProjectBySlug).filter(
+    (project): project is Project => project !== undefined,
+  );
 
   return (
     <main>

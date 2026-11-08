@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Globe } from "lucide-react";
+import { Download, Globe, Tag } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, projects } from "@/lib/data/projects";
 import { buildMetadata } from "@/lib/seo";
@@ -28,6 +28,19 @@ function renderWithInlineCode(text: string) {
   );
 }
 
+function renderSection(section: { heading: string; body: string }) {
+  return (
+    <section key={section.heading}>
+      <h2 className="text-h3 font-semibold text-text-primary">
+        {section.heading}
+      </h2>
+      <p className="mt-2 text-body text-text-secondary">
+        {renderWithInlineCode(section.body)}
+      </p>
+    </section>
+  );
+}
+
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
@@ -40,14 +53,16 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return { title: "Project" };
-  // seo-specification.md §4: a page's own image for OG/Twitter, falling
-  // back to the site-wide default when the project has no hero image.
+  // seo-specification.md §4: a page's own image for OG/Twitter — the
+  // project's dedicated share image if it has one, else its hero image,
+  // else the site-wide default.
+  const previewImage = project.ogImage ?? project.image;
   return buildMetadata({
     title: project.seoTitle ?? project.name,
     description: project.shortDescription,
     path: `/projects/${project.slug}`,
-    ...(project.image
-      ? { image: project.image.src, imageAlt: project.image.alt }
+    ...(previewImage
+      ? { image: previewImage.src, imageAlt: previewImage.alt }
       : {}),
   });
 }
@@ -55,7 +70,8 @@ export async function generateMetadata({
 // projects-specification.md §4.4's recommended case-study structure —
 // Overview → Problem → Goals → Solution → Architecture → Frontend →
 // Backend → Database → Challenges → Technical Decisions → Results →
-// Lessons Learned → Links.
+// Lessons Learned → Links. Optional extras (§4.5), each omitted when empty:
+// Screenshots and Highlights after Solution, a disclaimer at the very end.
 export default async function ProjectDetailPage({
   params,
 }: {
@@ -70,10 +86,13 @@ export default async function ProjectDetailPage({
   // a nested function referencing the original `project` binding.
   const proj = project;
 
-  const sections: { heading: string; body: string }[] = [
+  type Section = { heading: string; body: string };
+  const leadSections: Section[] = [
     { heading: "Problem", body: project.problem },
     { heading: "Goals", body: project.goals },
     { heading: "Solution", body: project.solution },
+  ];
+  const sections: Section[] = [
     { heading: "Architecture", body: project.architecture },
     { heading: "Frontend", body: project.frontend },
     { heading: "Backend", body: project.backend },
@@ -85,10 +104,12 @@ export default async function ProjectDetailPage({
   ];
 
   // Share only appears in the bottom occurrence of this row, not the one
-  // right under the header — the owner asked for it specifically "at the
-  // bottom of the page as the next button besides GitHub Repo."
+  // right under the header, and always comes last. App projects (§4.5) add
+  // Download APK and All Releases after GitHub Repo, in both rows.
+  const hasLinks =
+    proj.liveUrl || proj.repoUrl || proj.downloadUrl || proj.releasesUrl;
   function renderLinkButtons(includeShare: boolean) {
-    if (!proj.liveUrl && !proj.repoUrl && !includeShare) return null;
+    if (!hasLinks && !includeShare) return null;
     return (
       <div className="flex flex-wrap items-center gap-3 text-small">
         {proj.liveUrl ? (
@@ -111,6 +132,28 @@ export default async function ProjectDetailPage({
           >
             <GithubIcon className="h-4 w-4" aria-hidden="true" />
             GitHub Repo
+          </a>
+        ) : null}
+        {proj.downloadUrl ? (
+          <a
+            href={proj.downloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-4 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+          >
+            <Download className="h-4 w-4" aria-hidden="true" />
+            Download APK
+          </a>
+        ) : null}
+        {proj.releasesUrl ? (
+          <a
+            href={proj.releasesUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-4 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+          >
+            <Tag className="h-4 w-4" aria-hidden="true" />
+            All Releases
           </a>
         ) : null}
         {includeShare ? (
@@ -183,16 +226,40 @@ export default async function ProjectDetailPage({
       </header>
 
       <div className="mt-10 flex flex-col gap-8">
-        {sections.map((section) => (
-          <section key={section.heading}>
+        {leadSections.map(renderSection)}
+        {project.screenshots && project.screenshots.length > 0 ? (
+          <section>
             <h2 className="text-h3 font-semibold text-text-primary">
-              {section.heading}
+              Screenshots
             </h2>
-            <p className="mt-2 text-body text-text-secondary">
-              {renderWithInlineCode(section.body)}
-            </p>
+            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {project.screenshots.map((shot) => (
+                <Image
+                  key={shot.src}
+                  src={shot.src}
+                  alt={shot.alt}
+                  width={shot.width}
+                  height={shot.height}
+                  sizes="(min-width: 640px) 216px, 50vw"
+                  className="h-auto w-full rounded-lg border border-border"
+                />
+              ))}
+            </div>
           </section>
-        ))}
+        ) : null}
+        {project.highlights && project.highlights.length > 0 ? (
+          <section>
+            <h2 className="text-h3 font-semibold text-text-primary">
+              Highlights
+            </h2>
+            <ul className="mt-2 flex list-disc flex-col gap-2 pl-5 text-body text-text-secondary">
+              {project.highlights.map((highlight) => (
+                <li key={highlight}>{renderWithInlineCode(highlight)}</li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+        {sections.map(renderSection)}
       </div>
 
       {relatedPosts && relatedPosts.length > 0 ? (
@@ -222,6 +289,12 @@ export default async function ProjectDetailPage({
       <div className="mt-10 border-t border-border pt-6">
         {renderLinkButtons(true)}
       </div>
+
+      {project.disclaimer ? (
+        <p className="mt-8 text-tiny text-text-secondary">
+          {project.disclaimer}
+        </p>
+      ) : null}
     </main>
   );
 }

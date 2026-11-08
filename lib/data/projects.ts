@@ -34,8 +34,22 @@ export type Project = {
   // Desktop screenshot of the live site's hero (1440×900, in
   // public/projects/), shown above the title on cards and case-study pages.
   image?: { src: string; alt: string };
+  // Link-preview (OG/Twitter) image when it should differ from `image`,
+  // e.g. an app's own 1200×630 share image. Falls back to `image`.
+  ogImage?: { src: string; alt: string };
   liveUrl?: string;
   repoUrl?: string;
+  // App projects (projects-specification.md §4.5): a direct download of the
+  // latest build and the page listing every release. Download APK shows on
+  // the card and the case-study page; All Releases only on the page.
+  downloadUrl?: string;
+  releasesUrl?: string;
+  // Optional case-study extras (§4.5), each omitted when absent: a
+  // bulleted Highlights section, 3–5 app screenshots (portrait, in
+  // public/projects/<slug>/), and small-print disclaimer at the bottom.
+  highlights?: string[];
+  screenshots?: { src: string; alt: string; width: number; height: number }[];
+  disclaimer?: string;
 };
 
 export const projects: Project[] = [
@@ -177,6 +191,108 @@ export const projects: Project[] = [
     },
     liveUrl: "https://blessing-osamudiamen.vercel.app",
     repoUrl: "https://github.com/ARMSTRONG-AISOSA/blessing-osamudiamen",
+  },
+  {
+    slug: "dexplorer",
+    name: "Dexplorer",
+    seoTitle: "Dexplorer: Every Pokémon, even offline",
+    shortDescription:
+      "An offline-first Pokédex for Android, built with React Native and Expo. It covers all 1,025 Pokémon, with branching evolution trees, type matchups and a team builder that flags weak spots.",
+    featured: true,
+    role: "Solo developer — design, development, testing on real Android devices, the release, and the promotional website. Built using an AI-assisted workflow (Claude Code).",
+    techStack: [
+      "React Native 0.88",
+      "Expo SDK 58",
+      "Expo Router",
+      "TypeScript",
+      "TanStack Query",
+      "SQLite (expo-sqlite)",
+      "AsyncStorage",
+      "zod",
+      "Reanimated 4",
+      "react-native-svg",
+      "Jest",
+      "EAS Build",
+      "GitHub Actions",
+      "GitHub Pages",
+      "PokéAPI (REST + GraphQL)",
+    ],
+    problem:
+      "A Pokédex looks simple, but the data fights back. PokéAPI's REST list endpoint returns only names, so showing types and stats on 1,025 cards would take 1,025 requests, and sorting by stats would only ever cover the cards loaded so far. Evolution data comes as recursive trees with several possible methods per step. And an app used on a phone has to keep working when the connection is weak or gone.",
+    goals:
+      "Build a portfolio-grade Android app that covers every Pokémon, not just a first page: search, type filters and sorting across the full list; detail screens with stats and type matchups; evolution lines drawn as real trees; a team builder that checks six Pokémon for weak spots; and offline use for anything already opened. It also had to be accessible, polished in light and dark mode, and released where anyone can install it.",
+    solution:
+      "Dexplorer is a free Android app for browsing all 1,025 Pokémon. You can search, filter by type and sort by number, name or base-stat total. Detail screens show the Pokédex entry, abilities, stats and type matchups. Evolution lines are drawn as branching trees (Eevee's eight branches included), each labelled with how the evolution happens. A team builder checks six Pokémon against all 18 attack types and flags the gaps. Everything you open is cached on the phone, so it keeps working offline.",
+    highlights: [
+      "One GraphQL request (about 25 KB) loads a summary of every Pokémon, so sorting and filtering cover all 1,025 at once. The obvious approach would have taken 1,025 requests.",
+      "It works offline: data lives in SQLite and is refreshed in the background after 30 days.",
+      "Every API response and every stored value is validated with zod; corrupt data falls back safely instead of crashing.",
+      "It has accessibility support: TalkBack labels, 44 dp touch targets, layouts that adapt to larger text, and a reduced-motion setting.",
+      "It ships as per-processor APKs (39 MB instead of 114 MB) through GitHub Releases. A promotional site with SEO and share links is published by GitHub Actions.",
+    ],
+    screenshots: [
+      {
+        src: "/projects/dexplorer/list-light.webp",
+        alt: "Pokédex list with search, type filters and sorting",
+        width: 800,
+        height: 1187,
+      },
+      {
+        src: "/projects/dexplorer/detail-charizard-dark.webp",
+        alt: "Charizard's detail screen in dark mode",
+        width: 800,
+        height: 1187,
+      },
+      {
+        src: "/projects/dexplorer/evolution-light.webp",
+        alt: "Eevee's branching evolution tree",
+        width: 800,
+        height: 1187,
+      },
+      {
+        src: "/projects/dexplorer/team-light.webp",
+        alt: "Team builder with three Pokémon",
+        width: 800,
+        height: 1187,
+      },
+      {
+        src: "/projects/dexplorer/team-weak-light.webp",
+        alt: "Team weak-spot table across all 18 types",
+        width: 800,
+        height: 1187,
+      },
+    ],
+    architecture:
+      "Layered so each part has one job. Screens read data through TanStack Query hooks; the hooks call repositories that work as a read-through cache, checking SQLite first and only going to PokéAPI on a cache miss or when saved data is more than 30 days old. Below that, the domain logic — the 18×18 type chart, evolution-tree parsing, sorting and team analysis — is plain TypeScript in `src/domain`, with no UI code, so it can be unit tested against real PokéAPI responses. Every failure becomes a typed `AppError` (no connection, not found, rate limited, server error, unreadable data), and one failing section, such as the evolution chain, doesn't take down the rest of the screen.",
+    frontend:
+      'File-based, typed routes with Expo Router and a custom tab bar matched to the design. Animation runs on Reanimated 4: a launch animation, sliding tabs, a dimmed detail transition and a pop when a Pokémon joins the team, all skipped when the phone\'s "remove animations" setting is on. Artwork loads through `expo-image` with a memory and disk cache, icons, the Poké Ball and the evolution trees are drawn with react-native-svg, and the theme defines all 18 type colors for both light and dark mode. Every button has a TalkBack label, touch targets are at least 44 dp, and layouts adapt to larger system text.',
+    backend:
+      "None of its own, by design. All Pokémon data comes from PokéAPI, a free public API, so the app has no server to host or pay for. Being a good API citizen shaped the design instead: one GraphQL query replaces 1,025 list requests, detail requests are limited in how many run at once, and cached data is only refreshed after 30 days.",
+    database:
+      "Two on-device stores, each matched to its data. SQLite (expo-sqlite) caches Pokémon, species, evolution chains and About text, so anything already opened shows instantly and works offline. AsyncStorage holds the small user data: the team, favorites and settings. Both are validated with zod on the way in and on the way out; corrupt or outdated stored values fall back to safe defaults, and if the database can't open at all, the app keeps working online and says so.",
+    challenges:
+      "The list was the first real wall: fetching full REST records for all 1,025 Pokémon would have meant about 200 MB, because each record includes every move. A single GraphQL summary request solved it, with REST paging kept as a fallback if GraphQL fails. Real data had edge cases too — Leafeon's evolution showed a location-based method from an older game until I switched to the default entry instead of the first one listed. Two bugs only appeared on a real phone: the add-to-team sheet closed itself right after opening on a fresh start, and the tab you had just left stayed on top for a moment and caught taps. Screenshots and logs pulled over adb found both. Screen tests weren't practical either, since Reanimated 4's Jest mocks wouldn't load in this setup, so screens were checked on a real phone and tablet instead.",
+    technicalDecisions:
+      'Chose a GraphQL summary over paging so that sorting and filtering are honest about the whole Pokédex, not just what\'s loaded. Chose "show cached data first, refresh in the background after 30 days" over blocking on a refresh or never refreshing. Shipped three APKs per release — arm64 (39 MB) as the main download, armv7 (31 MB) for older phones and a 114 MB universal fallback — with fixed file names, so a `releases/latest/download` link always serves the newest version. Kept the native stack\'s screen transition over a JavaScript one, trading exact design timings for speed on low-end phones and native back gestures. Named the app Dexplorer rather than anything containing "Pokémon" or "Pokédex", which are Nintendo trademarks. No global state library, no ORM and no backend: none of them solved a problem this app has.',
+    results:
+      "Released in November 2026 and currently at version 1.0.1, available as a free APK download from GitHub Releases. The domain logic is covered by 169 unit tests, and screens were checked on two real Android devices, a phone and a tablet, including forced failure cases, both color modes and 130% text size. The promotional website is published to GitHub Pages by GitHub Actions, with share links, link previews and structured data, and is verified in Google Search Console and Bing Webmaster Tools with its sitemap submitted.",
+    lessonsLearned:
+      "Design around the API's shape: the obvious request-per-card approach would have hammered PokéAPI and made sorting by stats impossible. Offline-first is mostly about deciding what counts as fresh — caching was easy, deciding when cached data is too old and refreshing it without making the user wait took more thought. And test on real devices: some bugs only exist on a phone.",
+    image: {
+      src: "/projects/dexplorer.jpg",
+      alt: "Homepage hero of the Dexplorer website",
+    },
+    ogImage: {
+      src: "/projects/dexplorer/og-image.png",
+      alt: "Dexplorer app: the Pokédex list and Charizard's detail screen on two phones",
+    },
+    liveUrl: "https://armstrong-aisosa.github.io/pokedex-mobile/",
+    repoUrl: "https://github.com/ARMSTRONG-AISOSA/pokedex-mobile",
+    downloadUrl:
+      "https://github.com/ARMSTRONG-AISOSA/pokedex-mobile/releases/latest/download/dexplorer-arm64.apk",
+    releasesUrl: "https://github.com/ARMSTRONG-AISOSA/pokedex-mobile/releases",
+    disclaimer:
+      "Unofficial fan project, not affiliated with or endorsed by Nintendo, Game Freak, Creatures or The Pokémon Company. Pokémon data from PokéAPI.",
   },
 ];
 

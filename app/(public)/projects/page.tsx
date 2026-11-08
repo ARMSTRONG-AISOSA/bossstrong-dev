@@ -22,8 +22,8 @@ export default function ProjectsPage() {
       <div className="max-w-xl">
         <h1 className="text-h1 font-semibold text-text-primary">Projects</h1>
         <p className="mt-3 text-body-lg text-text-secondary">
-          Real full-stack work — frontend, backend, database design, and
-          deployment, end to end.
+          Real client and personal work, from full-stack web apps to mobile
+          apps.
         </p>
       </div>
 

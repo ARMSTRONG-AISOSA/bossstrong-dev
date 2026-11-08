@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Globe } from "lucide-react";
+import { ArrowRight, Download, Globe } from "lucide-react";
 import { GithubIcon } from "@/components/shared/brand-icons";
 import type { Project } from "@/lib/data/projects";
 
@@ -13,7 +13,8 @@ function truncate(text: string, limit: number) {
 
 // projects-specification.md §4.2/§4.3: name, short description, tech used,
 // link to the case study — concise here, deep narrative lives on the
-// project's own page. Title, "Read more", Live App, and GitHub Repo are each
+// project's own page. Title, "Read more", Live App, GitHub Repo, and (app
+// projects, §4.5) Download APK are each
 // their own Link/anchor (a link can't contain another link), rather than one
 // link wrapping the whole card.
 export function ProjectCard({ project }: { project: Project }) {
@@ -68,7 +69,7 @@ export function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
       ) : null}
-      {project.liveUrl || project.repoUrl ? (
+      {project.liveUrl || project.repoUrl || project.downloadUrl ? (
         <div className="flex flex-wrap gap-2 text-tiny">
           {project.liveUrl ? (
             <a
@@ -90,6 +91,17 @@ export function ProjectCard({ project }: { project: Project }) {
             >
               <GithubIcon className="h-3.5 w-3.5" aria-hidden="true" />
               GitHub Repo
+            </a>
+          ) : null}
+          {project.downloadUrl ? (
+            <a
+              href={project.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-3 font-medium text-text-primary transition-colors hover:bg-surface-alt"
+            >
+              <Download className="h-3.5 w-3.5" aria-hidden="true" />
+              Download APK
             </a>
           ) : null}
         </div>
