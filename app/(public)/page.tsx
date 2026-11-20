@@ -6,6 +6,7 @@ import { ProjectCard } from "@/components/projects/project-card";
 import { buttonVariants } from "@/components/ui/button";
 import { ContactIconLinks } from "@/components/shared/contact-icon-links";
 import { CONTACT_LINKS } from "@/lib/data/contact-links";
+import { HeroGlobe } from "@/components/home/hero-globe";
 
 // The three featured projects shown on Home, in order, picked by the owner
 // (2026-11-08: Dexplorer took Kempt Laundry's slot). /projects still lists
@@ -134,28 +135,31 @@ export default async function HomePage() {
         {JSON.stringify(personJsonLd(PERSON_SAME_AS))}
       </script>
       {/* Hero */}
-      <section className="mx-auto max-w-3xl px-6 py-20 text-center sm:py-28">
-        <p className="text-small font-medium text-accent-text">
-          Full-Stack Developer / Software Engineer
-        </p>
-        <h1 className="mt-3 text-hero font-semibold text-text-primary">
-          Armstrong Omoregie
-        </h1>
-        <p className="mx-auto mt-4 max-w-xl text-body-lg text-text-secondary">
-          I design and build complete web applications — frontend, backend,
-          database, and deployment — with an emphasis on solving real problems,
-          not just shipping interfaces.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/projects" className={buttonVariants({ size: "lg" })}>
-            View Projects
-          </Link>
-          <Link
-            href="/blog"
-            className={buttonVariants({ variant: "outline", size: "lg" })}
-          >
-            Read the Blog
-          </Link>
+      <section className="relative touch-pan-y overflow-hidden">
+        <HeroGlobe />
+        <div className="relative mx-auto max-w-3xl px-6 pb-28 pt-20 text-center sm:pb-44 sm:pt-28">
+          <p className="text-small font-medium text-accent-text">
+            Full-Stack Developer / Software Engineer
+          </p>
+          <h1 className="mt-3 text-hero font-semibold text-text-primary">
+            Armstrong Omoregie
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-body-lg text-text-secondary">
+            I design and build complete web applications — frontend, backend,
+            database, and deployment — with an emphasis on solving real
+            problems, not just shipping interfaces.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/projects" className={buttonVariants({ size: "lg" })}>
+              View Projects
+            </Link>
+            <Link
+              href="/blog"
+              className={buttonVariants({ variant: "outline", size: "lg" })}
+            >
+              Read the Blog
+            </Link>
+          </div>
         </div>
       </section>
 
