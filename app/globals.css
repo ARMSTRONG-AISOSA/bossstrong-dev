@@ -275,11 +275,28 @@
   color: var(--color-destructive);
 }
 
-/* Small CSS-only entrance stagger for card grids (e.g. Featured Projects) —
-   §7.2's "fade + slight upward translate" language, without an
-   IntersectionObserver: plays once on mount rather than on scroll into
-   view, which keeps it dependency-free and trivial to reason about. Nothing
-   past the 6th child gets a delay; that's an intentional, simple cutoff. */
+/* Scroll reveal (§7.1/§7.4), driven by components/shared/reveal.tsx: a
+   block that starts below the fold is hidden after hydration and fades up
+   as it scrolls into view. Blocks on screen at load are never hidden. */
+[data-reveal] {
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+/* A card grid inside a hidden block waits for the reveal, so its stagger
+   plays when it's seen rather than off-screen on load. */
+[data-reveal="hidden"] .stagger-fade-in > * {
+  animation-play-state: paused;
+}
+
+/* Entrance stagger for card grids (e.g. Featured Projects): each card fades
+   up in turn. It plays on mount, or when its grid's Reveal block scrolls
+   into view. Nothing past the 6th child gets a delay; that's an
+   intentional, simple cutoff. */
 @keyframes card-fade-in {
   from {
     opacity: 0;

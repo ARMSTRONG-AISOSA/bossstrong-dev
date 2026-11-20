@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getFeaturedProjects, getOtherProjects } from "@/lib/data/projects";
+import { Reveal } from "@/components/shared/reveal";
 import { ProjectCard } from "@/components/projects/project-card";
 import { buildMetadata } from "@/lib/seo";
 
@@ -38,11 +39,13 @@ export default function ProjectsPage() {
           <h2 className="text-h3 font-semibold text-text-primary">
             Featured Projects
           </h2>
-          <div className="stagger-fade-in mt-4 grid gap-4 sm:grid-cols-2">
-            {featured.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
+          <Reveal>
+            <div className="stagger-fade-in mt-4 grid gap-4 sm:grid-cols-2">
+              {featured.map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          </Reveal>
         </section>
       ) : null}
 
@@ -51,11 +54,13 @@ export default function ProjectsPage() {
           <h2 className="text-h3 font-semibold text-text-primary">
             Other Projects
           </h2>
-          <div className="stagger-fade-in mt-4 grid gap-4 sm:grid-cols-2">
-            {other.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
+          <Reveal>
+            <div className="stagger-fade-in mt-4 grid gap-4 sm:grid-cols-2">
+              {other.map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          </Reveal>
         </section>
       ) : null}
     </main>

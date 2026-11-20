@@ -26,9 +26,12 @@ export default function PrivacyPage() {
             What data is collected
           </h2>
           <p className="mt-2">
-            Only what the Contact form collects: your name, email address, and
-            message content. This site does not use tracking cookies, analytics,
-            or any form of behavioral profiling.
+            Only what the Contact form collects: your name, email address,
+            subject (optional), and message content. Your IP address is also
+            stored with the message, solely to limit repeated submissions as
+            spam protection; it isn&apos;t used for anything else and is deleted
+            together with the message. This site does not use tracking cookies,
+            analytics, or any form of behavioral profiling.
           </p>
         </section>
 
@@ -76,9 +79,10 @@ export default function PrivacyPage() {
             </li>
             <li>
               <strong className="text-text-primary">Resend</strong> — used to
-              send an email notification when a new message is submitted; the
-              message content passes through Resend&apos;s systems to deliver
-              that email.
+              send an email notification when a new message is submitted; your
+              name, email address, subject, and message pass through
+              Resend&apos;s systems to deliver that email (your IP address does
+              not).
             </li>
           </ul>
         </section>
