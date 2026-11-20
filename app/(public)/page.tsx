@@ -168,9 +168,9 @@ export default async function HomePage() {
             Armstrong Omoregie
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-body-lg text-text-secondary">
-            I design and build complete web applications — frontend, backend,
-            database, and deployment — with an emphasis on solving real
-            problems, not just shipping interfaces.
+            I design and build complete web and mobile applications —
+            frontend, backend, database, and deployment — with an emphasis on
+            solving real problems, not just shipping interfaces.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link href="/projects" className={buttonVariants({ size: "lg" })}>
