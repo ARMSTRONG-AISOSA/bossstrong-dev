@@ -56,18 +56,27 @@ const SKILLS: [string, string][] = [
   ["Languages", "JavaScript, TypeScript, Python, Rust, C, HTML5, CSS3, SQL"],
   [
     "Frontend",
-    "React, Next.js, React Native, Vite, Tailwind CSS, Bootstrap, Material UI, shadcn/ui, WordPress, Wix, Responsive Design",
+    "React, Next.js, React Native, Expo, Expo Router, TanStack Query, Vite, Tailwind CSS, Bootstrap, Material UI, shadcn/ui, Framer Motion, MapLibre, WordPress, Wix, Responsive Design",
   ],
-  ["Backend", "Express.js, Node.js, NestJS, Firebase, Prisma ORM"],
-  ["Databases", "PostgreSQL, Supabase, MongoDB, Relational Database Design"],
-  ["APIs", "REST APIs, JWT Authentication"],
+  [
+    "Backend",
+    "Node.js, Express.js, NestJS, Hono, Cloudflare Workers, Durable Objects, Firebase, Better Auth, Prisma ORM, Drizzle ORM",
+  ],
+  [
+    "Databases",
+    "PostgreSQL, Supabase, Neon, MongoDB, SQLite, Cloudflare Workers KV, Relational Database Design",
+  ],
+  [
+    "APIs",
+    "REST APIs, GraphQL, WebSockets, JWT Authentication, Firebase Cloud Messaging",
+  ],
   [
     "DevOps / Deployment",
-    "Docker, Linux (Mint/Debian), Vercel, GitHub Actions, CI/CD Baselines",
+    "Docker, Linux (Mint/Debian), Vercel, Cloudflare, GitHub Actions, GitHub Pages, EAS Build, CI/CD Baselines",
   ],
   [
     "Tools",
-    "Git, GitHub, npm, Postman, VS Code, Figma, Canva, GIMP, Notion, Trello, Claude, ChatGPT",
+    "Git, GitHub, npm, Turborepo, Vitest, Playwright, Jest, Postman, VS Code, Figma, Canva, GIMP, Notion, Trello, Claude, ChatGPT",
   ],
 ];
 
