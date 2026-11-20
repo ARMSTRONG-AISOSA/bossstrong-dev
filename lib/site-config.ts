@@ -10,4 +10,6 @@ export const DEVELOPER_TITLE = "Full-Stack Developer";
 export const DEFAULT_TITLE = `${DEVELOPER_NAME} — ${DEVELOPER_TITLE}`;
 export const DEFAULT_DESCRIPTION =
   "Full-stack developer portfolio for Armstrong Omoregie — projects, engineering writing, and background across React, Next.js, and Supabase/PostgreSQL.";
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.png`;
+// The ?v= suffix busts link-preview caches (WhatsApp, Facebook, X, LinkedIn
+// cache by image URL). Bump it whenever og-default.png is replaced.
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.png?v=2`;
