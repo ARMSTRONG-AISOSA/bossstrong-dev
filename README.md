@@ -1,19 +1,23 @@
 # bossstrong-dev
 
-Personal full-stack developer portfolio — Home, About, Projects, Blog, and Contact pages backed by a single-user admin dashboard for managing blog content.
+Personal full-stack developer portfolio: Home, About, Projects, Blog, and Contact pages, backed by a single-user admin dashboard for managing blog content, contact messages, and the resume.
+
+**Live:** https://bossstrong-dev.vercel.app
 
 ## Stack
 
-Next.js (App Router) · TypeScript · Tailwind CSS · shadcn/ui · Supabase (Postgres + Auth + Storage) · react-hook-form + zod · Resend · Vercel
-
-Full rationale, rejected alternatives, and every architectural decision live under [`docs/specs/`](./docs/specs/) — start with [`CLAUDE.md`](./CLAUDE.md) for an index and the standing operating rules for this project.
+Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · shadcn/ui · Supabase (Postgres + Auth + Storage) · react-hook-form + zod · react-markdown · Resend · cobe · Vercel
 
 ## Local setup
 
 1. Install dependencies: `npm install`
-2. Copy `.env.example` to `.env.local` and fill in the real values (Supabase URL/anon key, Resend API key).
-3. Run the dev server: `npm run dev`
+2. Copy `.env.example` to `.env.local` and fill in the real values:
+   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase project
+   - `RESEND_API_KEY`, `CONTACT_TO_EMAIL` — contact-form email notifications
+   - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `NEXT_PUBLIC_BING_SITE_VERIFICATION` — search engine verification (optional locally)
+3. Set up the database: see [`supabase/README.md`](./supabase/README.md).
+4. Run the dev server: `npm run dev`
 
-## Project structure and decisions
+## How this project is built
 
-This project is planned in full before implementation — every page's content, the database schema, the design system, and the deployment pipeline are documented under `docs/specs/` before any corresponding code is written. See `CLAUDE.md` Section 0 for the scope-discipline rule this project runs on: build what's documented, nothing more, and any deviation gets approved before it's implemented.
+Every page, the database schema, the design system, and the deployment pipeline were specified in planning documents before the corresponding code was written, and changes go through those documents first. The planning documents are kept locally and aren't part of this repository.
