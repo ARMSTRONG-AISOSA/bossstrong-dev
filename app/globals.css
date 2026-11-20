@@ -13,12 +13,15 @@
    below, so every generated color utility resolves correctly in both themes. */
 @theme {
   /* Color — light mode (§2.2) */
-  --color-background: #fafafa;
-  --color-surface: #ffffff;
-  --color-surface-alt: #f1f3f2;
-  --color-text-primary: #0f1412;
-  --color-text-secondary: #5b6560;
-  --color-border: #e4e8e6;
+  /* Dimmed 2026-11-20 (owner request: pure white felt too bright). Every
+     text token below was re-checked against all three surfaces and clears
+     WCAG AA (4.5:1) on each, with the lowest pair at 4.92:1. */
+  --color-background: #e9edeb;
+  --color-surface: #f3f6f4;
+  --color-surface-alt: #dfe4e1;
+  --color-text-primary: #0a0e0c;
+  --color-text-secondary: #434d48;
+  --color-border: #cbd3cf;
   --color-accent: #12b886;
   --color-accent-hover: #0ca678;
   /* Separate from --color-accent on purpose (§10): the brand teal is
@@ -28,14 +31,20 @@
      both roles, so this darker shade is for text/links only; buttons keep
      using --color-accent untouched. Dark mode's own accent already clears
      AA as text (11.95:1), so it's reassigned to the same value there. */
-  --color-accent-text: #087454;
+  --color-accent-text: #06654a;
   --color-success: #37b24d;
   --color-warning: #f59f00;
+  /* Text shades of success/warning, same reasoning as --color-accent-text:
+     the base shades measure ~2.5:1 and ~2:1 as text on light surfaces, so
+     these darker ones are for text (status badges, code highlighting). Dark
+     mode reassigns them to the base shades, which already clear AA there. */
+  --color-success-text: #1f6b2e;
+  --color-warning-text: #8a5300;
   /* #e03131 measured at 3.90:1 as actually rendered (text-destructive on the
      admin destructive button's tinted bg-destructive/10 surface) — below the
      4.5:1 AA baseline (§10). Darkened; dark mode's own shade already clears
-     AA and is untouched. */
-  --color-destructive: #c92a2a;
+     AA and is untouched. Darkened again to #b02525 with the 2026-11-20 light-palette dimming. */
+  --color-destructive: #b02525;
 
   /* shadcn/ui semantic roles (from `shadcn init`), aliased onto the tokens
      above rather than shadcn's own Nova/neutral defaults, so every copied-in
@@ -105,6 +114,8 @@
   --color-accent-text: var(--color-accent);
   --color-success: #51cf66;
   --color-warning: #fcc419;
+  --color-success-text: var(--color-success);
+  --color-warning-text: var(--color-warning);
   --color-destructive: #ff6b6b;
 }
 
@@ -247,16 +258,16 @@
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-literal {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .hljs-string,
 .hljs-attr {
-  color: var(--color-success);
+  color: var(--color-success-text);
 }
 .hljs-number,
 .hljs-built_in,
 .hljs-type {
-  color: var(--color-warning);
+  color: var(--color-warning-text);
 }
 .hljs-title,
 .hljs-name,

@@ -48,7 +48,7 @@ export function ArticleList({
               <span aria-hidden="true">·</span>
               <span>{estimateReadTime(post.body)} min read</span>
             </div>
-            <h2 className="text-h3 font-semibold text-text-primary transition-colors group-hover:text-accent">
+            <h2 className="text-h3 font-semibold text-text-primary transition-colors group-hover:text-accent-text">
               {post.title}
             </h2>
             <p className="text-body text-text-secondary">{post.excerpt}</p>

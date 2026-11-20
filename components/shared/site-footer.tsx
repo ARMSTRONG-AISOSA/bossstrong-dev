@@ -50,7 +50,7 @@ export function SiteFooter() {
                 href={link.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "transition-colors hover:text-accent",
+                  "transition-colors hover:text-accent-text",
                   active ? "text-text-primary" : "text-text-secondary",
                 )}
               >
@@ -70,7 +70,7 @@ export function SiteFooter() {
               href={link.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-text-secondary transition-colors hover:text-accent"
+              className="text-text-secondary transition-colors hover:text-accent-text"
             >
               {link.label}
             </a>
@@ -92,7 +92,7 @@ export function SiteFooter() {
             href="/privacy"
             aria-current={isActive("/privacy") ? "page" : undefined}
             className={cn(
-              "underline-offset-4 transition-colors hover:text-accent hover:underline",
+              "underline-offset-4 transition-colors hover:text-accent-text hover:underline",
               isActive("/privacy")
                 ? "text-text-primary"
                 : "text-text-secondary",

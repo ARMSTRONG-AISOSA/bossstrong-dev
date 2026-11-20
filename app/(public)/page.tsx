@@ -346,7 +346,7 @@ async function RecentPosts() {
           href={`/blog/${post.slug}`}
           className="group py-4 first:pt-0"
         >
-          <h3 className="text-body-lg font-semibold text-text-primary transition-colors group-hover:text-accent">
+          <h3 className="text-body-lg font-semibold text-text-primary transition-colors group-hover:text-accent-text">
             {post.title}
           </h3>
           <p className="mt-1 text-small text-text-secondary">{post.excerpt}</p>

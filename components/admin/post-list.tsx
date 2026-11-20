@@ -120,8 +120,8 @@ function StatusBadge({ status }: { status: Post["status"] }) {
     <span
       className={`inline-flex items-center rounded-full px-2 py-0.5 text-tiny font-medium ${
         isPublished
-          ? "bg-success/10 text-success"
-          : "bg-warning/10 text-warning"
+          ? "bg-success/10 text-success-text"
+          : "bg-warning/10 text-warning-text"
       }`}
     >
       {isPublished ? "Published" : "Draft"}

@@ -43,7 +43,7 @@ export function ProjectCard({ project }: { project: Project }) {
       ) : null}
       <Link
         href={href}
-        className="text-h3 font-semibold text-text-primary transition-colors group-hover:text-accent"
+        className="text-h3 font-semibold text-text-primary transition-colors group-hover:text-accent-text"
       >
         {project.name}
       </Link>

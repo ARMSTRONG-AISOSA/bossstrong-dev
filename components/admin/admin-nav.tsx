@@ -41,7 +41,7 @@ export function AdminNav() {
                   href={link.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "rounded-md px-2.5 py-1.5 text-small font-medium hover:bg-surface-alt hover:text-accent",
+                    "rounded-md px-2.5 py-1.5 text-small font-medium hover:bg-surface-alt hover:text-accent-text",
                     active ? "text-text-primary" : "text-text-secondary",
                   )}
                 >
@@ -54,7 +54,7 @@ export function AdminNav() {
         <div className="flex items-center gap-1">
           {/* Same localStorage-backed choice as the public nav's toggle, so
               switching here or on the site keeps both in sync. */}
-          <ThemeToggle className="inline-flex h-8 w-8 items-center justify-center rounded-md text-text-secondary hover:bg-surface-alt hover:text-accent" />
+          <ThemeToggle className="inline-flex h-8 w-8 items-center justify-center rounded-md text-text-secondary hover:bg-surface-alt hover:text-accent-text" />
           <form action={signOut}>
             <Button type="submit" variant="ghost" size="sm">
               Logout

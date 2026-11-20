@@ -58,9 +58,9 @@ function themeColors(): Partial<COBEOptions> {
         dark: 0,
         diffuse: 1.2,
         mapBrightness: 4,
-        baseColor: [1, 1, 1],
+        baseColor: [0.93, 0.95, 0.94],
         markerColor: accent,
-        glowColor: [0.92, 0.96, 0.94],
+        glowColor: [0.85, 0.89, 0.87],
       };
 }
 
