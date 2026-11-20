@@ -24,7 +24,7 @@ import { DEFAULT_TITLE } from "@/lib/site-config";
 export const metadata: Metadata = buildMetadata({
   title: DEFAULT_TITLE,
   description:
-    "I design and build complete web applications — frontend, backend, database, and deployment — with an emphasis on solving real problems, not just shipping interfaces.",
+    "I design and build complete web and mobile applications — frontend, backend, database, and deployment — with an emphasis on solving real problems, not just shipping interfaces.",
   path: "/",
   absoluteTitle: true,
 });
