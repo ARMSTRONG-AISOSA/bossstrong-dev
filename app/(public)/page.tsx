@@ -7,12 +7,14 @@ import { buttonVariants } from "@/components/ui/button";
 import { ContactIconLinks } from "@/components/shared/contact-icon-links";
 import { CONTACT_LINKS } from "@/lib/data/contact-links";
 import { HeroGlobe } from "@/components/home/hero-globe";
+import { Reveal } from "@/components/shared/reveal";
 
 // The three featured projects shown on Home, in order, picked by the owner
-// (2026-11-08: Dexplorer took Kempt Laundry's slot). /projects still lists
-// every featured project.
+// (2026-11-08: Dexplorer took Kempt Laundry's slot; 2026-11-20: Casual
+// Kitchen Express took bossstrong-dev's). /projects still lists every
+// featured project.
 const HOME_PROJECT_SLUGS = [
-  "bossstrong-dev",
+  "casual-kitchen-express",
   "dexplorer",
   "blessing-osamudiamen-portfolio",
 ];
@@ -165,165 +167,179 @@ export default async function HomePage() {
 
       {/* Engineering Snapshot */}
       <section className="border-t border-border bg-surface-alt/50 px-6 py-16">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-h2 font-semibold text-text-primary">
-            Engineering Snapshot
-          </h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SNAPSHOT_AREAS.map((area) => (
-              <div
-                key={area.name}
-                className="rounded-lg border border-border bg-surface p-5 transition-all duration-200 ease-in-out hover:-translate-y-1 hover:border-accent hover:shadow-md active:-translate-y-1 active:border-accent active:shadow-md dark:hover:bg-surface-alt dark:hover:shadow-none dark:active:bg-surface-alt dark:active:shadow-none"
-              >
-                <h3 className="text-body-lg font-semibold text-text-primary">
-                  {area.name}
-                </h3>
-                <p className="mt-2 text-small text-text-secondary">
-                  {area.body}
-                </p>
-              </div>
-            ))}
+        <Reveal>
+          <div className="mx-auto max-w-5xl">
+            <h2 className="text-h2 font-semibold text-text-primary">
+              Engineering Snapshot
+            </h2>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {SNAPSHOT_AREAS.map((area) => (
+                <div
+                  key={area.name}
+                  className="rounded-lg border border-border bg-surface p-5 transition-all duration-200 ease-in-out hover:-translate-y-1 hover:border-accent hover:shadow-md active:-translate-y-1 active:border-accent active:shadow-md dark:hover:bg-surface-alt dark:hover:shadow-none dark:active:bg-surface-alt dark:active:shadow-none"
+                >
+                  <h3 className="text-body-lg font-semibold text-text-primary">
+                    {area.name}
+                  </h3>
+                  <p className="mt-2 text-small text-text-secondary">
+                    {area.body}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Featured Projects */}
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-h2 font-semibold text-text-primary">
-            Featured Projects
-          </h2>
-          <Link
-            href="/projects"
-            className="text-small font-medium text-accent-text underline underline-offset-2"
-          >
-            View all
-          </Link>
-        </div>
-        {featuredProjects.length > 0 ? (
-          <div className="stagger-fade-in mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
+        <Reveal>
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-h2 font-semibold text-text-primary">
+              Featured Projects
+            </h2>
+            <Link
+              href="/projects"
+              className="text-small font-medium text-accent-text underline underline-offset-2"
+            >
+              View all
+            </Link>
           </div>
-        ) : (
-          <p className="mt-6 rounded-md border border-border bg-surface px-6 py-10 text-center text-body text-text-secondary">
-            Project write-ups are in progress — check back soon.
-          </p>
-        )}
+          {featuredProjects.length > 0 ? (
+            <div className="stagger-fade-in mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredProjects.map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          ) : (
+            <p className="mt-6 rounded-md border border-border bg-surface px-6 py-10 text-center text-body text-text-secondary">
+              Project write-ups are in progress — check back soon.
+            </p>
+          )}
+        </Reveal>
       </section>
 
       {/* Engineering Approach */}
       <section className="border-t border-border bg-surface-alt/50 px-6 py-16">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-h2 font-semibold text-text-primary">
-            Engineering Approach
-          </h2>
-          <ol className="mt-6 flex flex-col gap-3">
-            {ENGINEERING_APPROACH.map((step, index) => (
-              <li key={step} className="flex gap-3">
-                <span className="text-small font-medium text-accent-text">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="text-body text-text-secondary">{step}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <Reveal>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-h2 font-semibold text-text-primary">
+              Engineering Approach
+            </h2>
+            <ol className="mt-6 flex flex-col gap-3">
+              {ENGINEERING_APPROACH.map((step, index) => (
+                <li key={step} className="flex gap-3">
+                  <span className="text-small font-medium text-accent-text">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-body text-text-secondary">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Reveal>
       </section>
 
       {/* Technical Stack */}
       <section className="mx-auto max-w-4xl px-6 py-16">
-        <h2 className="text-h2 font-semibold text-text-primary">
-          Technical Stack
-        </h2>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
-          {TECH_STACK.map((group) => (
-            <div key={group.group}>
-              <h3 className="text-small font-semibold text-text-secondary">
-                {group.group}
-              </h3>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full bg-surface-alt px-3 py-1 text-small text-text-primary"
-                  >
-                    {item}
-                  </span>
-                ))}
+        <Reveal>
+          <h2 className="text-h2 font-semibold text-text-primary">
+            Technical Stack
+          </h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            {TECH_STACK.map((group) => (
+              <div key={group.group}>
+                <h3 className="text-small font-semibold text-text-secondary">
+                  {group.group}
+                </h3>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full bg-surface-alt px-3 py-1 text-small text-text-primary"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       {/* Selected Writing */}
       <section className="border-t border-border bg-surface-alt/50 px-6 py-16">
-        <div className="mx-auto max-w-3xl">
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-h2 font-semibold text-text-primary">
-              Selected Writing
-            </h2>
+        <Reveal>
+          <div className="mx-auto max-w-3xl">
+            <div className="flex items-baseline justify-between">
+              <h2 className="text-h2 font-semibold text-text-primary">
+                Selected Writing
+              </h2>
+              {hasEnoughWriting ? (
+                <Link
+                  href="/blog"
+                  className="text-small font-medium text-accent-text underline underline-offset-2"
+                >
+                  Read the blog
+                </Link>
+              ) : null}
+            </div>
             {hasEnoughWriting ? (
-              <Link
-                href="/blog"
-                className="text-small font-medium text-accent-text underline underline-offset-2"
-              >
-                Read the blog
-              </Link>
-            ) : null}
+              <RecentPosts />
+            ) : (
+              <p className="mt-6 rounded-md border border-border bg-surface px-6 py-10 text-center text-body text-text-secondary">
+                Writing is coming soon.
+              </p>
+            )}
           </div>
-          {hasEnoughWriting ? (
-            <RecentPosts />
-          ) : (
-            <p className="mt-6 rounded-md border border-border bg-surface px-6 py-10 text-center text-body text-text-secondary">
-              Writing is coming soon.
-            </p>
-          )}
-        </div>
+        </Reveal>
       </section>
 
       {/* About / Experience Preview */}
       <section className="mx-auto max-w-3xl px-6 py-16 text-center">
-        <h2 className="text-h2 font-semibold text-text-primary">
-          Behind the Work
-        </h2>
-        <p className="mx-auto mt-4 max-w-xl text-body text-text-secondary">
-          Currently a full-stack developer at Brand-Eng Solutions, building
-          end-to-end web applications with TypeScript, React, Next.js, and a
-          Supabase/PostgreSQL backend. Before that, several years of frontend
-          development work — shipping client websites, translating designs into
-          responsive UI, and moving from HTML/CSS into full-stack engineering
-          along the way.
-        </p>
-        <Link
-          href="/about"
-          className="mt-4 inline-block text-small font-medium text-accent-text underline underline-offset-2"
-        >
-          Read the full story
-        </Link>
+        <Reveal>
+          <h2 className="text-h2 font-semibold text-text-primary">
+            Behind the Work
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-body text-text-secondary">
+            Currently a full-stack developer at Brand-Eng Solutions, building
+            end-to-end web applications with TypeScript, React, Next.js, and a
+            Supabase/PostgreSQL backend. Before that, several years of frontend
+            development work — shipping client websites, translating designs
+            into responsive UI, and moving from HTML/CSS into full-stack
+            engineering along the way.
+          </p>
+          <Link
+            href="/about"
+            className="mt-4 inline-block text-small font-medium text-accent-text underline underline-offset-2"
+          >
+            Read the full story
+          </Link>
+        </Reveal>
       </section>
 
       {/* Contact CTA */}
       <section className="border-t border-border px-6 py-20 text-center">
-        <h2 className="text-h2 font-semibold text-text-primary">
-          Let&apos;s Build Something
-        </h2>
-        <p className="mx-auto mt-3 max-w-md text-body text-text-secondary">
-          Open to full-stack roles, freelance work, and interesting technical
-          collaborations.
-        </p>
-        <Link
-          href="/contact"
-          className={buttonVariants({ size: "lg", className: "mt-6" })}
-        >
-          Get in Touch
-        </Link>
-        <ContactIconLinks
-          ids={["github", "linkedin", "email", "whatsapp"]}
-          className="mt-6 justify-center"
-        />
+        <Reveal>
+          <h2 className="text-h2 font-semibold text-text-primary">
+            Let&apos;s Build Something
+          </h2>
+          <p className="mx-auto mt-3 max-w-md text-body text-text-secondary">
+            Open to full-stack roles, freelance work, and interesting technical
+            collaborations.
+          </p>
+          <Link
+            href="/contact"
+            className={buttonVariants({ size: "lg", className: "mt-6" })}
+          >
+            Get in Touch
+          </Link>
+          <ContactIconLinks
+            ids={["github", "linkedin", "email", "whatsapp"]}
+            className="mt-6 justify-center"
+          />
+        </Reveal>
       </section>
     </main>
   );

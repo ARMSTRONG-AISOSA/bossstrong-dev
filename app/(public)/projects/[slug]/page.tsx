@@ -28,16 +28,59 @@ function renderWithInlineCode(text: string) {
   );
 }
 
+// A blank line in a field's text starts a new paragraph, so long case
+// studies stay readable instead of one wall of text.
+function renderParagraphs(text: string) {
+  return text.split(/\n\s*\n/).map((paragraph, i) => (
+    <p key={i} className="text-body text-text-secondary">
+      {renderWithInlineCode(paragraph.trim())}
+    </p>
+  ));
+}
+
 function renderSection(section: { heading: string; body: string }) {
   return (
     <section key={section.heading}>
       <h2 className="text-h3 font-semibold text-text-primary">
         {section.heading}
       </h2>
-      <p className="mt-2 text-body text-text-secondary">
-        {renderWithInlineCode(section.body)}
-      </p>
+      <div className="mt-2 flex flex-col gap-3">
+        {renderParagraphs(section.body)}
+      </div>
     </section>
+  );
+}
+
+type Shot = { src: string; alt: string; width: number; height: number };
+
+// Portrait phone screenshots sit three across; landscape (tablet) ones two
+// across, so they stay large enough to read.
+function renderShotGrid(shots: Shot[]) {
+  const landscape = shots.every((shot) => shot.width > shot.height);
+  return (
+    <div
+      className={
+        landscape
+          ? "mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2"
+          : "mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3"
+      }
+    >
+      {shots.map((shot) => (
+        <Image
+          key={shot.src}
+          src={shot.src}
+          alt={shot.alt}
+          width={shot.width}
+          height={shot.height}
+          sizes={
+            landscape
+              ? "(min-width: 640px) 330px, 100vw"
+              : "(min-width: 640px) 216px, 50vw"
+          }
+          className="h-auto w-full rounded-lg border border-border"
+        />
+      ))}
+    </div>
   );
 }
 
@@ -107,7 +150,17 @@ export default async function ProjectDetailPage({
   // right under the header, and always comes last. App projects (§4.5) add
   // Download APK and All Releases after GitHub Repo, in both rows.
   const hasLinks =
-    proj.liveUrl || proj.repoUrl || proj.downloadUrl || proj.releasesUrl;
+    proj.liveUrl ||
+    proj.repoUrl ||
+    proj.downloadUrl ||
+    proj.downloads?.length ||
+    proj.releasesUrl;
+  // Several apps → one labelled button each; otherwise the single one.
+  const downloadLinks =
+    proj.downloads ??
+    (proj.downloadUrl
+      ? [{ label: "Download APK", url: proj.downloadUrl }]
+      : []);
   function renderLinkButtons(includeShare: boolean) {
     if (!hasLinks && !includeShare) return null;
     return (
@@ -134,17 +187,18 @@ export default async function ProjectDetailPage({
             GitHub Repo
           </a>
         ) : null}
-        {proj.downloadUrl ? (
+        {downloadLinks.map((download) => (
           <a
-            href={proj.downloadUrl}
+            key={download.url}
+            href={download.url}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-4 font-medium text-text-primary transition-colors hover:bg-surface-alt"
           >
             <Download className="h-4 w-4" aria-hidden="true" />
-            Download APK
+            {download.label}
           </a>
-        ) : null}
+        ))}
         {proj.releasesUrl ? (
           <a
             href={proj.releasesUrl}
@@ -227,24 +281,33 @@ export default async function ProjectDetailPage({
 
       <div className="mt-10 flex flex-col gap-8">
         {leadSections.map(renderSection)}
-        {project.screenshots && project.screenshots.length > 0 ? (
+        {project.screenshotGroups && project.screenshotGroups.length > 0 ? (
           <section>
             <h2 className="text-h3 font-semibold text-text-primary">
               Screenshots
             </h2>
-            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {project.screenshots.map((shot) => (
-                <Image
-                  key={shot.src}
-                  src={shot.src}
-                  alt={shot.alt}
-                  width={shot.width}
-                  height={shot.height}
-                  sizes="(min-width: 640px) 216px, 50vw"
-                  className="h-auto w-full rounded-lg border border-border"
-                />
+            <div className="mt-3 flex flex-col gap-6">
+              {project.screenshotGroups.map((group) => (
+                <div key={group.title}>
+                  <h3 className="text-body-lg font-semibold text-text-primary">
+                    {group.title}
+                  </h3>
+                  {group.caption ? (
+                    <p className="mt-1 text-small text-text-secondary">
+                      {group.caption}
+                    </p>
+                  ) : null}
+                  {renderShotGrid(group.shots)}
+                </div>
               ))}
             </div>
+          </section>
+        ) : project.screenshots && project.screenshots.length > 0 ? (
+          <section>
+            <h2 className="text-h3 font-semibold text-text-primary">
+              Screenshots
+            </h2>
+            {renderShotGrid(project.screenshots)}
           </section>
         ) : null}
         {project.highlights && project.highlights.length > 0 ? (
