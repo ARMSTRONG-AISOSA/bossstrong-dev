@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { COBEOptions, Globe } from "cobe";
+import createGlobe, { type COBEOptions, type Globe } from "cobe";
 
 // Interactive background globe for the Home hero (approved 2026-11-20, see
 // ui-design-system-specification.md §7.4). Built on `cobe` (~6KB gzipped,
-// WebGL, no texture image), loaded with a dynamic import after hydration so
-// it never blocks the hero text from painting.
+// WebGL, no texture image). Bundled with the page (2026-11-22): a separate
+// lazy chunk only added a network round trip, and the hero text is
+// server-rendered, so it paints first either way.
 //
 // - Drag (mouse or touch) anywhere on the hero to spin it; vertical touch
 //   scrolling still works (touch-action: pan-y on the hero section).
@@ -137,24 +138,21 @@ export function HeroGlobe() {
       else stop();
     });
 
-    import("cobe").then(({ default: createGlobe }) => {
-      if (cancelled) return;
-      globe = createGlobe(canvas, {
-        devicePixelRatio: dpr,
-        width: size,
-        height: size,
-        phi,
-        theta,
-        mapSamples: 16000,
-        mapBaseBrightness: 0,
-        markers: [],
-        scale: 1,
-        ...themeColors(),
-      } as COBEOptions);
-      globe.update({ phi, theta });
-      container.style.opacity = canvasOpacity();
-      start();
-    });
+    globe = createGlobe(canvas, {
+      devicePixelRatio: dpr,
+      width: size,
+      height: size,
+      phi,
+      theta,
+      mapSamples: 16000,
+      mapBaseBrightness: 0,
+      markers: [],
+      scale: 1,
+      ...themeColors(),
+    } as COBEOptions);
+    globe.update({ phi, theta });
+    container.style.opacity = canvasOpacity();
+    start();
 
     section.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
@@ -187,7 +185,7 @@ export function HeroGlobe() {
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="pointer-events-none absolute left-1/2 top-[42%] aspect-square w-[min(900px,150vw)] -translate-x-1/2 opacity-0 transition-opacity duration-700 ease-out [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%)]"
+      className="pointer-events-none absolute left-1/2 top-[42%] aspect-square w-[min(900px,150vw)] -translate-x-1/2 opacity-0 transition-opacity duration-300 ease-out [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%)]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>
